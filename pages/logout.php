@@ -4,5 +4,5 @@ session_start();
 session_unset();
 session_destroy();
 
-header("Location: ./catalogue.php");
+header("Location: ./main.php");
 exit();

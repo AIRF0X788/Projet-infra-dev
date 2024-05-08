@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user_id = $conn->insert_id;
         $_SESSION['user_id'] = $user_id;
 
-        $activation_link = "http://localhost/xampp/php/Projet_php/pages/activer_compte.php?token=" . $activation_token;
+        $activation_link = "http://localhost/xampp/infradev/pages/activer_compte.php?token=" . $activation_token;
 
         $transport = new Swift_SmtpTransport('smtp.office365.com', 587, 'tls');
         $transport->setUsername('tomandcocontact@gmail.com');

@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$database = "dbphp";
+$database = "infra/dev";
 
 $conn = new mysqli($servername, $username, $password, $database);
 
@@ -59,7 +59,7 @@ $conn->close();
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
     setTimeout(function () {
-        window.location.href = 'catalogue.php';
+        window.location.href = 'main.php';
     }, 1000);
 </script>
 
