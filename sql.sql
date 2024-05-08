@@ -5,8 +5,7 @@ CREATE TABLE IF NOT EXISTS utilisateurs (
     mot_de_passe VARCHAR(255) NOT NULL,
     statut VARCHAR(10) NOT NULL DEFAULT 'inactif',
     activation_token VARCHAR(255) DEFAULT NULL,
-    est_admin BOOLEAN DEFAULT 0,
-    points_fidelite INT DEFAULT 0
+    est_admin BOOLEAN DEFAULT 0
 );
 CREATE TABLE IF NOT EXISTS produits (
     id_produit INT AUTO_INCREMENT PRIMARY KEY,
