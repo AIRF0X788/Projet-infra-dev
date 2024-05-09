@@ -4,7 +4,7 @@ session_start();
 $servername = "localhost";
 $username = "root";
 $password = "";
-$database = "dbphp";
+$database = "infra/dev";
 
 $conn = new mysqli($servername, $username, $password, $database);
 
@@ -18,9 +18,10 @@ if ($conn->connect_error) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>main</title>
+    <title>Main</title>
 </head>
 <body>
+<a href="profil.php" class="btn btn-primary">Voir mon profil</a>
 </body>
 
 </html>

@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     header('Location: admin.php');
                 } else {
                     $_SESSION['popup_shown'] = true;
-                    header('Location: catalogue.php');
+                    header('Location: main.php');
                 }
             } else {
                 echo "Nom d'utilisateur ou mot de passe incorrect.";
@@ -101,6 +101,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $user_id = $conn->insert_id;
         $_SESSION['user_id'] = $user_id;
+
+        if (!empty($_POST['categories'])) {
+            foreach ($_POST['categories'] as $category_id) {
+                $sql = "INSERT INTO user_categories (user_id, category_id) VALUES (?, ?)";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("ii", $user_id, $category_id);
+                $stmt->execute();
+            }
+        }
 
         $activation_link = "http://localhost/xampp/infradev/pages/activer_compte.php?token=" . $activation_token;
 
@@ -150,6 +159,12 @@ ob_end_flush();
         <input type="text" name="username" class="form-style" for="username" placeholder="Nom d'utilisateur" id="username" autocomplete="off" required>
         <input type="email" name="email" class="form-style" for="email" placeholder="Email" id="email" autocomplete="off" required>
         <input type="password" name="password" class="form-style" for="password" placeholder="Mot de passe" id="password" autocomplete="off" required>
+        <label for="categories">Catégories :</label><br>
+        <input type="checkbox" name="categories[]" value="1"> Beatmaker<br>
+        <input type="checkbox" name="categories[]" value="2"> Ghostwriter<br>
+        <input type="checkbox" name="categories[]" value="3"> Chanteur<br>
+        <input type="checkbox" name="categories[]" value="4"> Producteur<br>
+
         <button type="submit" class="btn mt-4">Créer le compte</button>
     </form>
 </body>
