@@ -35,7 +35,7 @@ $result = $conn->query($sql);
     <?php while ($row = $result->fetch_assoc()) : ?>
         <div>
             <p>Type de publication: <?php echo $row['type_publication']; ?></p>
-            <p>Titre: <?php echo $row['contenu']; ?></p>
+            <p>Titre: <?php echo $row['titre']; ?></p>
             <?php if ($row['type_publication'] === 'prod' && !empty($row['lien_audio'])) : ?>
                 <audio controls>
                     <source src="<?php echo $row['lien_audio']; ?>" type="audio/mpeg">

@@ -1,3 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Info</title>
+</head>
+<body>
+<a href="main.php" class="btn btn-primary">Retour</a>
+</body>
+</html>
+
 <?php
 session_start();
 
@@ -12,11 +24,9 @@ if ($conn->connect_error) {
     die("La connexion à la base de données a échoué : " . $conn->connect_error);
 }
 
-// Récupérez l'ID du poste à partir des paramètres de l'URL
 if (isset($_GET['id'])) {
     $post_id = $_GET['id'];
 
-    // Requête pour récupérer les détails du poste en fonction de son ID
     $sql = "SELECT * FROM publications WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $post_id);
@@ -27,7 +37,14 @@ if (isset($_GET['id'])) {
         $row = $result->fetch_assoc();
         echo "<div>";
         echo "<p>Type de publication: " . $row['type_publication'] . "</p>";
-        echo "<p>Contenu: " . $row['contenu'] . "</p>";
+        echo "<p>Titre: " . $row['titre'] . "</p>";
+        echo "<p>Description: " . $row['description'] . "</p>";
+        if ($row['payant'] === 1 && !empty($row['prix'])) {
+            echo "<p>Prix: " . $row['prix'] . "</p>";
+        }
+        if ($row['type_publication'] === 'texte' && !empty($row['contenu_texte'])) {
+            echo "<p>Texte: " . $row['contenu_texte'] . "</p>";
+        }
         if ($row['type_publication'] === 'prod' && !empty($row['lien_audio'])) {
             echo "<audio controls>";
             echo "<source src='" . $row['lien_audio'] . "' type='audio/mpeg'>";

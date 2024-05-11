@@ -28,8 +28,13 @@ CREATE TABLE IF NOT EXISTS user_categories (
 CREATE TABLE IF NOT EXISTS publications (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
-    type ENUM('prod', 'texte') NOT NULL,
+    type_publication ENUM('texte', 'prod') NOT NULL,
+    titre VARCHAR(255),
+    description TEXT,
+    payant BOOLEAN DEFAULT 0,
+    prix DECIMAL(10,2) DEFAULT 0.00,
     contenu_texte TEXT,
-    lien_audio VARCHAR(255)
+    lien_audio VARCHAR(255),
+    date_publication DATETIME
 );
 

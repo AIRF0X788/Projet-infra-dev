@@ -15,16 +15,29 @@ if ($conn->connect_error) {
 $sql = "SELECT * FROM publications WHERE type_publication = 'texte'";
 $result = $conn->query($sql);
 
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        echo "<div>";
-        echo "<p>Type de publication: " . $row['type_publication'] . "</p>";
-        echo "<p>Contenu: " . $row['contenu'] . "</p>";
-        echo "</div>";
-    }
-} else {
-    echo "Aucune publication de type 'texte' n'a été trouvée.";
-}
 
 $conn->close();
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Textes</title>
+</head>
+<body>
+<a href="main.php" class="btn btn-primary">Retour</a>
+<?php if ($result->num_rows > 0) : ?>
+    <?php while ($row = $result->fetch_assoc()) : ?>
+        <div>
+            <p>Type de publication: <?php echo $row['type_publication']; ?></p>
+            <p>Titre: <?php echo $row['titre']; ?></p>
+            <a href='post_info.php?id=<?php echo $row['id']; ?>'>Voir plus</a>
+        </div>
+    <?php endwhile; ?>
+<?php else : ?>
+    <p>Aucune publication disponible.</p>
+<?php endif; ?>
+</body>
+</html>
