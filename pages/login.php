@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($row && password_verify($login_password, $row['mot_de_passe'])) {
                 $_SESSION['user_id'] = $row['id_utilisateur'];
                 $user_name = $row['nom_utilisateur'];
-                setcookie("user_name_cookie", $user_name, time() + 86400, "/");
+                setcookie("user_id_cookie", $user_id, time() + (86400 * 30), "/");
                 if ($row['est_admin'] == 1) {
                     header('Location: admin.php');
                 } else {

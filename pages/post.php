@@ -8,6 +8,7 @@
     <title>Nouvelle Publication</title>
 </head>
 <body>
+    <a href="main.php" class="btn btn-primary">Retour</a>
     <h2>Nouvelle Publication</h2>
     <form method="post" action="traitement_publication.php" enctype="multipart/form-data">
         <label for="type_publication">Type de publication:</label>

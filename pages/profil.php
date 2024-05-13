@@ -130,6 +130,7 @@ $conn->close();
 </head>
 
 <body>
+<a href="logout.php">Déconnexion</a>
 <a href="main.php" class="btn btn-primary">Retourner à la page d'accueil</a>
     <div class="container mt-3">
         <h2>Profil de <?php echo $nom_utilisateur; ?></h2>
