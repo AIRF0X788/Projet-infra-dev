@@ -36,12 +36,6 @@ $result = $conn->query($sql);
         <div>
             <p>Type de publication: <?php echo $row['type_publication']; ?></p>
             <p>Titre: <?php echo $row['titre']; ?></p>
-            <?php if ($row['type_publication'] === 'prod' && !empty($row['lien_audio'])) : ?>
-                <audio controls>
-                    <source src="<?php echo $row['lien_audio']; ?>" type="audio/mpeg">
-                    Votre navigateur ne prend pas en charge l'élément audio.
-                </audio>
-            <?php endif; ?>
             <a href='post_info.php?id=<?php echo $row['id']; ?>'>Voir plus</a>
         </div>
     <?php endwhile; ?>
