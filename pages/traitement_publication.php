@@ -56,10 +56,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $user_id = $_SESSION['user_id'];
 
-    $sql = "INSERT INTO publications (user_id, type_publication, titre, description, contenu_texte, lien_audio, date_publication) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $prix = isset($_POST['prix']) ? $_POST['prix'] : null;
+
+    $sql = "INSERT INTO publications (user_id, type_publication, titre, description, contenu_texte, lien_audio, prix, date_publication) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("issssss", $user_id, $type_publication, $titre, $description, $contenu, $lien_audio, $date_publication);
+    $stmt->bind_param("isssssis", $user_id, $type_publication, $titre, $description, $contenu, $lien_audio, $prix, $date_publication);
     $stmt->execute();
+
+    if (!empty($prix)) {
+        $publication_id = $stmt->insert_id;
+        $sql_update_payant = "UPDATE publications SET payant = 1 WHERE id = ?";
+        $stmt_update_payant = $conn->prepare($sql_update_payant);
+        $stmt_update_payant->bind_param("i", $publication_id);
+        $stmt_update_payant->execute();
+    }    
 
     $conn->close();
 
@@ -67,3 +77,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     exit();
 }
 ?>
+<!--  -->

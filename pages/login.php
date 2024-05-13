@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($row && password_verify($login_password, $row['mot_de_passe'])) {
                 $_SESSION['user_id'] = $row['id_utilisateur'];
                 $user_name = $row['nom_utilisateur'];
-                setcookie("user_id_cookie", $user_id, time() + (86400 * 30), "/");
+                setcookie("user_name_cookie", $user_name, time() + 86400, "/");
                 if ($row['est_admin'] == 1) {
                     header('Location: admin.php');
                 } else {
@@ -141,32 +141,55 @@ ob_end_flush();
 <html lang="fr">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../css/login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
 </head>
 
+
 <body>
-    <h4 class="mb-4 pb-3">Se connecter</h4>
-    <form method="post" action="./login.php">
-        <input type="text" name="login_username" class="form-style" for="login_username" placeholder="Nom d'utilisateur" id="login_username" autocomplete="off" required>
-        <input type="password" name="login_password" class="form-style" for="login_password" placeholder="Mot de passe" id="login_password" autocomplete="off" required>
-        <button type="submit" name="login" class="btn mt-4">Se connecter</button>
-    </form>
+    <div class="main">
+        <div class="container a-container" id="a-container">
+            <form class="form" id="a-form" method="post" action="./login.php">
+                <h2 class="form_title title">Créer un compte</h2>
+                <input class="form__input" type="text" name="username" for="username" id="username" autocomplete="off" placeholder="Nom d'utilisateur" required>
+                <input class="form__input" type="email" name="email" for="email" id="email" autocomplete="off" placeholder="Email" required>
+                <input class="form__input" type="password" name="password" for="password" id="password" autocomplete="off" placeholder="Mot de passe" required>
+                <label for="categories">Catégories :</label><br>
+                <input type="checkbox" name="categories[]" value="1"> Beatmaker<br>
+                <input type="checkbox" name="categories[]" value="2"> Ghostwriter<br>
+                <input type="checkbox" name="categories[]" value="3"> Chanteur<br>
+                <input type="checkbox" name="categories[]" value="4"> Producteur<br>
+                <button type="submit" class="form__button button submit">S'INSCRIRE</button>
+            </form>
+        </div>
+        <div class="container b-container" id="b-container">
+            <form class="form" id="b-form" method="post" action="./login.php">
+                <h2 class="form_title title">Se connecter</h2>
+                <input class="form__input" type="text" name="login_username" for="login_username" placeholder="Nom d'utilisateur" id="login_username" autocomplete="off" required>
+                <input class="form__input" type="password" name="login_password" for="login_password" placeholder="Mot de passe" id="login_password" autocomplete="off" required><!-- <a class="form__link">Forgot your password?</a> -->
+                <button class="form__button button submit" type="submit" name="login">SE CONNECTER</button>
+            </form>
+        </div>
+        <div class="switch" id="switch-cnt">
+            <div class="switch__circle"></div>
+            <div class="switch__circle switch__circle--t"></div>
+            <div class="switch__container" id="switch-c1">
+                <h2 class="switch__title title">Ravi de vous revoir !</h2>
+                <p class="switch__description description">Pour rester connecté avec nous, veuillez vous connecter avec vos informations personnelles</p>
+                <button class="switch__button button switch-btn">SE CONNECTER</button>
+            </div>
+            <div class="switch__container is-hidden" id="switch-c2">
+                <h2 class="switch__title title">Bonjour !</h2>
+                <p class="switch__description description">Entrez vos données personnelles et commencez votre voyage avec nous</p>
+                <button class="switch__button button switch-btn">S'INSCRIRE</button>
+            </div>
+        </div>
+    </div>
+    <script src="../js/login.js"></script>
 
-    <h4 class="mb-4 pb-3">Créer un compte</h4>
-    <form method="post" action="./login.php">
-        <input type="text" name="username" class="form-style" for="username" placeholder="Nom d'utilisateur" id="username" autocomplete="off" required>
-        <input type="email" name="email" class="form-style" for="email" placeholder="Email" id="email" autocomplete="off" required>
-        <input type="password" name="password" class="form-style" for="password" placeholder="Mot de passe" id="password" autocomplete="off" required>
-        <label for="categories">Catégories :</label><br>
-        <input type="checkbox" name="categories[]" value="1"> Beatmaker<br>
-        <input type="checkbox" name="categories[]" value="2"> Ghostwriter<br>
-        <input type="checkbox" name="categories[]" value="3"> Chanteur<br>
-        <input type="checkbox" name="categories[]" value="4"> Producteur<br>
-
-        <button type="submit" class="btn mt-4">Créer le compte</button>
-    </form>
 </body>
 
 </html>
+<!--  -->
