@@ -24,14 +24,31 @@ $message = '';
 try {
     $payment = Payment::get($paymentId, $apiContext);
 
+    $conn = new mysqli("localhost", "root", "", "infra/dev");
+
+    if ($conn->connect_error) {
+        die("Erreur de connexion à la base de données : " . $conn->connect_error);
+    }
+
+    session_start();
+    $user_id = $_SESSION['user_id'];
+
+    $transactions = $payment->getTransactions();
+    $amount = $transactions[0]->getAmount()->getTotal();
+
+    $sql = "INSERT INTO achats (user_id, payment_id, amount, purchase_date) VALUES (?, ?, ?, NOW())";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("iss", $user_id, $paymentId, $amount);
+    $stmt->execute();
+
     $message = 'Paiement réussi. Merci pour votre achat!';
 } catch (Exception $ex) {
     $message = "Une erreur s'est produite lors de la récupération des détails du paiement PayPal: " . $ex->getMessage();
     header("Location: cancel.php");
     exit;
 }
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

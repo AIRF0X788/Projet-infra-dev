@@ -26,6 +26,7 @@ $result = $conn->query($sql);
 </head>
 <body>
 <a href="profil.php" class="btn btn-primary">Voir mon profil</a>
+<a href="achat.php" class="btn btn-primary">Voir mes achats</a>
 <a href="post.php" class="btn btn-primary">Poster</a>
 <a href="prods.php" class="btn btn-primary">Prods</a>
 <a href="texte.php" class="btn btn-primary">Textes</a>

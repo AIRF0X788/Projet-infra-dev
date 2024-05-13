@@ -38,3 +38,11 @@ CREATE TABLE IF NOT EXISTS publications (
     date_publication DATETIME
 );
 
+CREATE TABLE achats (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    payment_id VARCHAR(255),
+    amount DECIMAL(10,2),
+    purchase_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES utilisateurs(id_utilisateur)
+);
