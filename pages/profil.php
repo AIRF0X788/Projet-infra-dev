@@ -126,73 +126,119 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../css/profil.css">
+    <link rel="stylesheet" type="text/css" href="../css/navbar.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Profil</title>
 </head>
 
 <body>
-<a href="logout.php">Déconnexion</a>
-<a href="main.php" class="btn btn-primary">Retourner à la page d'accueil</a>
-    <div class="container mt-3">
-        <h2>Profil de <?php echo $nom_utilisateur; ?></h2>
-        <p><strong>ID Utilisateur:</strong> <?php echo $user_id; ?></p>
-        <p><strong>Nom d'utilisateur:</strong> <?php echo $nom_utilisateur; ?></p>
-        <p><strong>Email:</strong> <?php echo $email; ?></p>
-        <?php if (!empty($categories)) : ?>
-            <p><strong>Catégories :</strong> <?php echo implode(", ", $categories); ?></p>
-        <?php endif; ?>
-        <br><br>
+<nav class="navbars">
+        <ul class="navbar__menu">
+            <li class="navbar__item">
+                <a href="main.php" class="navbar__link"><i class="fa fa-home"></i><span>Home</span></a>
+            </li>
+            <li class="navbar__item">
+                <a href="achat.php" class="navbar__link"><i class="fa fa-cart-plus"></i><span>Voir mes achats</span></a>
+            </li>
+            <li class="navbar__item">
+                <a href="post.php" class="navbar__link"><i class="fa fa-plus"></i><span>Poster</span></a>
+            </li>
+            <li class="navbar__item">
+                <a href="prods.php" class="navbar__link"><i class="fa fa-headphones"></i><span>Prods</span></a>
+            </li>
+            <li class="navbar__item">
+                <a href="texte.php" class="navbar__link"><i class="fa fa-file-text-o"></i><span>Textes</span></a>
+            </li>
+        </ul>
+    </nav>
+    <!-- <a href="logout.php">Déconnexion</a>
+    <a href="main.php">Retourner à la page d'accueil</a> -->
+    <div class="container-fluid main" style="height:100vh;padding-left:25%;">
+        <div class="row align-items-center" style="height:100%">
+            <div class="col-md-9">
+                <div class="container content clear-fix">
+                    <h2 class="mt-5 mb-5">Profil de <?php echo $nom_utilisateur; ?></h2>
+                    <div class="row" style="height:100%">
+                        <div class="col-md-3">
+                            <div href=# class="d-inline"><img
+                                    src="https://lens-storage.storage.googleapis.com/png/fb1637eb55b64fc0895801945c0d470e"
+                                    width=130px style="margin:0;"><br>
+                                <p class="pl-2 mt-2"><a href="#" class="btn" style="color:#8f9096;font-weight:600">Edit
+                                        Picture</a></p>
+                            </div>
+                            <p><strong>ID Utilisateur:</strong> <?php echo $user_id; ?></p>
+                            <p><strong>Nom d'utilisateur:</strong> <?php echo $nom_utilisateur; ?></p>
+                            <p><strong>Email:</strong> <?php echo $email; ?></p>
+                            <?php if (!empty($categories)): ?>
+                                <p><strong>Catégories :</strong> <?php echo implode(", ", $categories); ?></p>
+                            <?php endif; ?>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="container">
+                                <form method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>" id="usernameForm">
+                                    <div class="form-group">
+                                        <label for="new_username">Changer le nom d'utilisateur:</label>
+                                        <input type="text" class="form-control" name="new_username" id="new_username"
+                                            required>
+                                    </div>
+                                    <button type="submit" name="change_username"
+                                        class="btn btn-primary btn-block">Changer le nom d'utilisateur</button>
+                                </form>
+                                <?php if (!empty($success_username)) {
+                                    echo "<p class='text-success'>$success_username</p>";
+                                } ?>
+                                <form method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>" id="emailForm">
+                                    <div class="mt-4 form-group">
 
-        <div class="mb-3">
-            <button class="btn btn-primary" onclick="showForm('usernameForm')">Changer le nom d'utilisateur</button>
-            <button class="btn btn-primary" onclick="showForm('emailForm')">Changer l'adresse e-mail</button>
-            <button class="btn btn-primary" onclick="showForm('passwordForm')">Changer le mot de passe</button>
+                                        <label for="new_email">Changer l'adresse e-mail:</label>
+                                        <input type="email" class="form-control" name="new_email" id="new_email"
+                                            required>
+                                    </div>
+                                    <button type="submit" name="change_email" class="btn btn-primary btn-block">Changer
+                                        l'adresse e-mail</button>
+                                </form>
+                                <?php if (!empty($success_email)) {
+                                    echo "<p class='text-success'>$success_email</p>";
+                                } ?>
+                                <form method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>" id="passwordForm">
+                                    <div class="mt-4 form-group">
+                                        <label for="new_password">Changer le mot de passe:</label>
+                                        <input type="password" class="form-control" name="new_password"
+                                            id="new_password" required>
+                                    </div>
+                                    <button type="submit" name="change_password"
+                                        class="btn btn-primary btn-block">Changer
+                                        le mot de passe</button>
+                                </form>
+                                <?php if (!empty($success_password)) {
+                                    echo "<p class='text-success'>$success_password</p>";
+                                } ?>
+                                <form method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
+                                    <div class="mt-4 form-group">
+
+                                        <label>Changer les catégories:</label>
+                                        <br>
+                                        <?php while ($row = $result_categories->fetch_assoc()): ?>
+                                            <input type="checkbox" name="categories[]" value="<?php echo $row['id']; ?>"
+                                                <?php echo (in_array($row['id'], $user_categories) ? 'checked' : ''); ?>>
+                                            <?php echo $row['name']; ?><br>
+                                        <?php endwhile; ?>
+                                    </div>
+                                    <button type="submit" name="update_categories"
+                                        class="btn btn-primary btn-block">Mettre
+                                        à jour les catégories</button>
+                                        <button type="button" class="mt-5 btn btn-default btn-block"><a href="logout.php" style="text-decoration:none;">Déconnexion</a></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <form method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>" id="usernameForm" style="display:none;">
-            <label for="new_username">Changer le nom d'utilisateur:</label>
-            <input type="text" name="new_username" id="new_username" required>
-            <button type="submit" name="change_username" class="btn btn-primary">Changer le nom d'utilisateur</button>
-        </form>
-        <?php if (!empty($success_username)) {
-            echo "<p class='text-success'>$success_username</p>";
-        } ?>
-
-        <form method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>" id="emailForm" style="display:none;">
-            <label for="new_email">Changer l'adresse e-mail:</label>
-            <input type="email" name="new_email" id="new_email" required>
-            <button type="submit" name="change_email" class="btn btn-primary">Changer l'adresse e-mail</button>
-        </form>
-        <?php if (!empty($success_email)) {
-            echo "<p class='text-success'>$success_email</p>";
-        } ?>
-
-        <form method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>" id="passwordForm" style="display:none;">
-            <label for="new_password">Changer le mot de passe:</label>
-            <input type="password" name="new_password" id="new_password" required>
-            <button type="submit" name="change_password" class="btn btn-primary">Changer le mot de passe</button>
-        </form>
-        <?php if (!empty($success_password)) {
-            echo "<p class='text-success'>$success_password</p>";
-        } ?>
-        <form method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
-            <h3>Changer les catégories</h3>
-            <?php while ($row = $result_categories->fetch_assoc()): ?>
-                <input type="checkbox" name="categories[]" value="<?php echo $row['id']; ?>" <?php echo (in_array($row['id'], $user_categories) ? 'checked' : ''); ?>>
-                <?php echo $row['name']; ?><br>
-            <?php endwhile; ?>
-            <button type="submit" name="update_categories">Mettre à jour les catégories</button>
-        </form>
     </div>
-
-    <script>
-        function showForm(formId) {
-            document.getElementById('usernameForm').style.display = 'none';
-            document.getElementById('emailForm').style.display = 'none';
-            document.getElementById('passwordForm').style.display = 'none';
-
-            document.getElementById(formId).style.display = 'block';
-        }
-    </script>
 </body>
 
 </html>

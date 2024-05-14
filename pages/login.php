@@ -145,8 +145,6 @@ ob_end_flush();
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="../css/login.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
 
 
@@ -155,12 +153,9 @@ ob_end_flush();
         <div class="container a-container" id="a-container">
             <form class="form" id="a-form" method="post" action="./login.php">
                 <h2 class="form_title title">Créer un compte</h2>
-                <input class="form__input" type="text" name="username" for="username" id="username" autocomplete="off"
-                    placeholder="Nom d'utilisateur" required>
-                <input class="form__input" type="email" name="email" for="email" id="email" placeholder="Email"
-                    required>
-                <input class="form__input" type="password" name="password" for="password" id="password"
-                    autocomplete="off" placeholder="Mot de passe" required>
+                <input class="form__input" type="text" name="username" for="username" id="username" autocomplete="off" placeholder="Nom d'utilisateur" required>
+                <input class="form__input" type="email" name="email" for="email" id="email" autocomplete="off" placeholder="Email" required>
+                <input class="form__input" type="password" name="password" for="password" id="password" autocomplete="off" placeholder="Mot de passe" required>
                 <label for="categories">Catégories :</label><br>
                 <input type="checkbox" name="categories[]" value="1"> Beatmaker<br>
                 <input type="checkbox" name="categories[]" value="2"> Ghostwriter<br>
@@ -175,12 +170,6 @@ ob_end_flush();
                 <input class="form__input" type="text" name="login_username" for="login_username" placeholder="Nom d'utilisateur" id="login_username" autocomplete="off" required>
                 <input class="form__input" type="password" name="login_password" for="login_password" placeholder="Mot de passe" id="login_password" autocomplete="off" required><!-- <a class="form__link">Forgot your password?</a> -->
                 <button class="form__button button" type="submit" name="login">SE CONNECTER</button>
-                <input class="form__input" type="text" name="login_username" for="login_username"
-                    placeholder="Nom d'utilisateur" id="login_username" autocomplete="off" required>
-                <input class="form__input" type="password" name="login_password" for="login_password"
-                    placeholder="Mot de passe" id="login_password" autocomplete="off"
-                    required><!-- <a class="form__link">Forgot your password?</a> -->
-                <button class="form__button button" type="submit" name="login">SE CONNECTER</button>
             </form>
         </div>
         <div class="switch" id="switch-cnt">
@@ -188,14 +177,12 @@ ob_end_flush();
             <div class="switch__circle switch__circle--t"></div>
             <div class="switch__container" id="switch-c1">
                 <h2 class="switch__title title">Ravi de vous revoir !</h2>
-                <p class="switch__description description">Pour rester connecté avec nous, veuillez vous connecter avec
-                    vos informations personnelles</p>
+                <p class="switch__description description">Pour rester connecté avec nous, veuillez vous connecter avec vos informations personnelles</p>
                 <button class="switch__button button switch-btn">SE CONNECTER</button>
             </div>
             <div class="switch__container is-hidden" id="switch-c2">
                 <h2 class="switch__title title">Bonjour !</h2>
-                <p class="switch__description description">Entrez vos données personnelles et commencez votre voyage
-                    avec nous</p>
+                <p class="switch__description description">Entrez vos données personnelles et commencez votre voyage avec nous</p>
                 <button class="switch__button button switch-btn">S'INSCRIRE</button>
             </div>
         </div>

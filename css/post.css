@@ -1,0 +1,45 @@
+#containerBox {
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+
+#containerBox .innerBox {
+    background: #fff;
+    width: 960px;
+}
+
+#containerBox .innerBox .card-title {
+    background-color: #118fe4;
+    padding: 2rem;
+}
+
+#containerBox .innerBox .card-title h1 {
+    color: #fff;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+#containerBox .innerBox .content {
+    padding: 3rem 2.5rem 5rem;
+}
+
+#containerBox .innerBox .fillOut {
+    display: block;
+    width: 100%;
+    font-size: 1rem;
+    margin-bottom: 1.75rem;
+    padding: 0.25rem 0;
+    border: none;
+    border-bottom: 1px solid #dbdbdb;
+    transition: all 0.5s;
+}
+
+#containerBox .innerBox .fillOut:hover {
+    border-color: #7a7a7a;
+}
+
+#containerBox .innerBox .fillOut:active,
+#containerBox .innerBox .fillOut:focus {
+    border-color: #209cee;
+}
