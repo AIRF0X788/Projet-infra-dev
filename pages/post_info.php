@@ -46,11 +46,18 @@
                     echo "<p>Texte: " . $row['contenu_texte'] . "</p>";
                 }
                 if ($row['type_publication'] === 'prod' && !empty($row['lien_audio'])) {
-                    echo "<audio id='audioPlayer'>";
-                    echo "<source src='" . $row['lien_audio'] . "' type='audio/mpeg'>";
-                    echo "Votre navigateur ne prend pas en charge l'élément audio.";
-                    echo "</audio>";
-                    echo "<button id='previewButton'>Ecouter l'extrait de la prod</button>";
+                    if ($row['payant'] === 1 && !empty($row['prix'])) {
+                        echo "<audio id='audioPlayer'>";
+                        echo "<source src='" . $row['lien_audio'] . "' type='audio/mpeg'>";
+                        echo "Votre navigateur ne prend pas en charge l'élément audio.";
+                        echo "</audio>";
+                        echo "<button id='previewButton'>Ecouter l'extrait de la prod</button>";  
+                    } else {
+                        echo "<audio id='audioPlayer' controls>";
+                        echo "<source src='" . $row['lien_audio'] . "' type='audio/mpeg'>";
+                        echo "Votre navigateur ne prend pas en charge l'élément audio.";
+                        echo "</audio>";
+                    } 
                 }
                 echo "</div>";
             } else {
@@ -74,7 +81,9 @@
         });
     </script>
     <div class="container">
-    <a href="process_payment.php?id=<?php echo $post_id; ?>&prix=<?php echo $row['prix']; ?>" class="btn btn-primary">Payer</a>
+    <?php if ($row['payant'] === 1 && !empty($row['prix'])) : ?>
+        <a href="process_payment.php?id=<?php echo $post_id; ?>&prix=<?php echo $row['prix']; ?>" class="btn btn-primary">Payer</a>
+            <?php endif; ?>
     </div>
 </body>
 
