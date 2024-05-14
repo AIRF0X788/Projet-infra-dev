@@ -74,7 +74,7 @@
         });
     </script>
     <div class="container">
-        <a href="process_payment.php?id=<?php echo $post_id; ?>&prix=<?php echo $row['prix']; ?>" class="btn btn-primary">Payer</a>
+    <a href="process_payment.php?id=<?php echo $post_id; ?>&prix=<?php echo $row['prix']; ?>" class="btn btn-primary">Payer</a>
     </div>
 </body>
 
