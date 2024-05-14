@@ -22,10 +22,14 @@ $apiContext->setConfig(['mode' => 'sandbox']);
 
 if(isset($_GET['prix'])) {
     $totalPrice = $_GET['prix'];
-} else {
 }
 
-$id_utilisateur = $_SESSION['user_id'];
+$user_id = $_SESSION['user_id'];    
+$post_id = $_GET['id'];
+
+if(isset($_GET['prix'])) {
+    $prix = $_GET['prix'];
+}
 
 $payer = new Payer();
 $payer->setPaymentMethod('paypal');
@@ -57,6 +61,11 @@ try {
     if ($conn->connect_error) {
         die("Erreur de connexion à la base de données: " . $conn->connect_error);
     }
+
+    $sql = "INSERT INTO achats (user_id, id_publication, prix, date_achat) VALUES (?, ?, ?, NOW())";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("iis", $user_id, $post_id, $prix);
+    $stmt->execute();
 
     $payment->create($apiContext);
     header('Location: ' . $payment->getApprovalLink());
