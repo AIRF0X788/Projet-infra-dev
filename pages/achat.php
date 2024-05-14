@@ -50,7 +50,7 @@ $stmt->close();
                 echo "<td>" . $row['prix'] . "</td>";
                 echo "<td>";
                 if ($row['type_publication'] === 'texte') {
-                    echo "<a href='download.php?type=text&content=" . urlencode($row['contenu_texte']) . "' class='btn btn-primary' download>Télécharger</a>";
+                    echo "<a href='download.php?type=text&title=" . urlencode($row['titre']) . "&content=" . urlencode($row['contenu_texte']) . "' class='btn btn-primary' download>Télécharger</a>";
                 } elseif ($row['type_publication'] === 'prod') {
                     echo "<a href='" . $row['lien_audio'] . "' class='btn btn-primary' download>Télécharger</a>";
                 }
