@@ -47,7 +47,7 @@
                                 <div class="field-body">
                                     <div class="field">
                                         <div class="control">
-                                            <input class="input" type="text" placeholder="Title">
+                                            <input class="input" type="text" name="titre_texte" id="titre_texte" placeholder="Titre">
                                         </div>
                                     </div>
                                 </div>
@@ -59,7 +59,7 @@
                                 <div class="field-body">
                                     <div class="field">
                                         <div class="control">
-                                            <textarea class="textarea" placeholder=""></textarea>
+                                            <textarea class="textarea" name="description_texte" id="description_texte" placeholder="Ceci est une description..."></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -71,7 +71,7 @@
                                 <div class="field-body">
                                     <div class="field">
                                         <div class="control">
-                                            <textarea class="textarea" placeholder=""></textarea>
+                                            <textarea class="textarea" name="contenu_texte" id="contenu_texte" placeholder="Ceci est ...."></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -86,7 +86,7 @@
                                 <div class="field-body">
                                     <div class="field">
                                         <div class="control">
-                                            <input class="input" type="text" placeholder="Title">
+                                            <input class="input" type="text" name="titre_prod" id="titre_prod" placeholder="Titre">
                                         </div>
                                     </div>
                                 </div>
@@ -98,7 +98,7 @@
                                 <div class="field-body">
                                     <div class="field">
                                         <div class="control">
-                                            <textarea class="textarea" placeholder=""></textarea>
+                                            <textarea class="textarea" name="description_prod" id="description_prod" placeholder="Ceci est une description..."></textarea>
                                         </div>
                                     </div>
                                 </div>
