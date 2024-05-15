@@ -15,6 +15,12 @@ if ($conn->connect_error) {
 $sql = "SELECT * FROM publications ORDER BY date_publication DESC";
 $result = $conn->query($sql);
 
+$sql_likes = "SELECT * FROM publications ORDER BY likes_count DESC LIMIT 5";
+$result_likes = $conn->query($sql_likes);
+
+$sql_recent = "SELECT * FROM publications ORDER BY date_publication DESC LIMIT 5";
+$result_recent = $conn->query($sql_recent);
+
 ?>
 
 <!DOCTYPE html>
@@ -48,11 +54,11 @@ $result = $conn->query($sql);
             </li>
         </ul>
     </nav>
-    <h1>Publications</h1>
-    <?php if ($result->num_rows > 0): ?>
-        <?php while ($row = $result->fetch_assoc()): ?>
+    <h1>Les plus likés</h1>
+    <?php if ($result_likes->num_rows > 0): ?>
+        <?php while ($row = $result_likes->fetch_assoc()): ?>
             <div>
-                <p>Type de publication: <?php echo $row['type_publication']; ?></p>
+                <p>Type: <?php echo $row['type_publication']; ?></p>
                 <p>Titre: <?php echo $row['titre']; ?></p>
                 <a href='post_info.php?id=<?php echo $row['id']; ?>'>Voir plus</a>
             </div>
@@ -60,6 +66,21 @@ $result = $conn->query($sql);
     <?php else: ?>
         <p>Aucune publication disponible.</p>
     <?php endif; ?>
+
+    <h1>Les plus récents</h1>
+    <?php if ($result_recent->num_rows > 0): ?>
+        <?php while ($row = $result_recent->fetch_assoc()): ?>
+            <div>
+                <p>Type: <?php echo $row['type_publication']; ?></p>
+                <p>Titre: <?php echo $row['titre']; ?></p>
+                <a href='post_info.php?id=<?php echo $row['id']; ?>'>Voir plus</a>
+            </div>
+        <?php endwhile; ?>
+    <?php else: ?>
+        <p>Aucune publication disponible.</p>
+    <?php endif; ?>
+
+    <?php $conn->close(); ?>
 
     <script>feather.replace()</script>
 </body>
