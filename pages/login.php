@@ -168,7 +168,7 @@ ob_end_flush();
             <form class="form" id="b-form" method="post" action="./login.php">
                 <h2 class="form_title title">Se connecter</h2>
                 <input class="form__input" type="text" name="login_username" for="login_username" placeholder="Nom d'utilisateur" id="login_username" autocomplete="off" required>
-                <input class="form__input" type="password" name="login_password" for="login_password" placeholder="Mot de passe" id="login_password" autocomplete="off" required><!-- <a class="form__link">Forgot your password?</a> -->
+                <input class="form__input" type="password" name="login_password" for="login_password" placeholder="Mot de passe" id="login_password" autocomplete="off" required>
                 <button class="form__button button" type="submit" name="login">SE CONNECTER</button>
             </form>
         </div>

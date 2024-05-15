@@ -51,15 +51,28 @@
                         echo "<source src='" . $row['lien_audio'] . "' type='audio/mpeg'>";
                         echo "Votre navigateur ne prend pas en charge l'élément audio.";
                         echo "</audio>";
-                        echo "<button id='previewButton'>Ecouter l'extrait de la prod</button>";  
+                        echo "<button id='previewButton'>Ecouter l'extrait de la prod</button>";
                     } else {
                         echo "<audio id='audioPlayer' controls>";
                         echo "<source src='" . $row['lien_audio'] . "' type='audio/mpeg'>";
                         echo "Votre navigateur ne prend pas en charge l'élément audio.";
                         echo "</audio>";
-                    } 
+                    }
                 }
                 echo "</div>";
+
+                echo "<p>Likes: " . $row['likes_count'] . "</p>";
+
+                $liked = isset($_COOKIE['liked_' . $post_id]) && $_COOKIE['liked_' . $post_id] == 'true';
+
+                echo "<form method='POST' action='like.php'>";
+                echo "<input type='hidden' name='publication_id' value='" . $post_id . "'>";
+                if ($liked) {
+                    echo "<button type='submit' class='btn btn-secondary' disabled>Liked</button>";
+                } else {
+                    echo "<button type='submit' class='btn btn-primary'>Like</button>";
+                }
+                echo "</form>";
             } else {
                 echo "Aucun poste trouvé avec cet ID.";
             }
@@ -77,13 +90,13 @@
             audio.play();
             setTimeout(function() {
                 audio.pause();
-            }, 15000); 
+            }, 15000);
         });
     </script>
     <div class="container">
-    <?php if ($row['payant'] === 1 && !empty($row['prix'])) : ?>
-        <a href="process_payment.php?id=<?php echo $post_id; ?>&prix=<?php echo $row['prix']; ?>" class="btn btn-primary">Payer</a>
-            <?php endif; ?>
+        <?php if ($row['payant'] === 1 && !empty($row['prix'])) : ?>
+            <a href="process_payment.php?id=<?php echo $post_id; ?>&prix=<?php echo $row['prix']; ?>" class="btn btn-primary">Payer</a>
+        <?php endif; ?>
     </div>
 </body>
 

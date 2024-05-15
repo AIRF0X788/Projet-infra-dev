@@ -35,7 +35,8 @@ CREATE TABLE IF NOT EXISTS publications (
     prix DECIMAL(10,2) DEFAULT 0.00,
     contenu_texte TEXT,
     lien_audio VARCHAR(255),
-    date_publication DATETIME
+    date_publication DATETIME,
+    likes_count INT DEFAULT 0
 );
 
 CREATE TABLE achats (
