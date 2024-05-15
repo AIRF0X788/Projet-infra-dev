@@ -3,6 +3,7 @@ session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $type_publication = $_POST['type_publication'];
+    $genre_musical = $_POST['genre_musical'];
     $titre = null;
     $description = null;
 
@@ -55,12 +56,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $user_id = $_SESSION['user_id'];
-
     $prix = isset($_POST['prix']) ? $_POST['prix'] : null;
 
-    $sql = "INSERT INTO publications (user_id, type_publication, titre, description, contenu_texte, lien_audio, prix, date_publication) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO publications (user_id, type_publication, genre_musical, titre, description, contenu_texte, lien_audio, prix, date_publication) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("isssssis", $user_id, $type_publication, $titre, $description, $contenu, $lien_audio, $prix, $date_publication);
+    $stmt->bind_param("issssssss", $user_id, $type_publication, $genre_musical, $titre, $description, $contenu, $lien_audio, $prix, $date_publication);
     $stmt->execute();
 
     if (!empty($prix)) {
@@ -71,10 +71,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt_update_payant->execute();
     }    
 
+    $stmt->close();
     $conn->close();
 
     header("Location: main.php");
     exit();
 }
 ?>
-<!--  -->

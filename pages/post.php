@@ -28,8 +28,7 @@
                                 <div class="field">
                                     <div class="control">
                                         <div class="select">
-                                            <select name="type_publication" id="type_publication"
-                                                onchange="showFields()">
+                                            <select name="type_publication" id="type_publication" onchange="showFields()">
                                                 <option value="texte">Texte</option>
                                                 <option value="prod">Prod</option>
                                             </select>
@@ -104,7 +103,6 @@
                                 </div>
                             </div>
                             <div class="columns is-centered">
-
                                 <div class="column is-2">
                                     <div class="field">
                                         <div class="file is-link is-centered has-name is-boxed">
@@ -114,13 +112,46 @@
                                                     <span class="file-icon">
                                                         <i class="fas fa-cloud-upload-alt"></i>
                                                     </span>
-                                                    <span class="file-label">
-                                                        Fichier audio:
-                                                    </span>
+                                                    <span class="file-label">Fichier audio:</span>
                                                 </span>
-                                                <span class="file-name">
-                                                </span>
+                                                <span class="file-name"></span>
                                             </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                                <label class="label">Genre Musical:</label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <div class="control">
+                                        <div class="select">
+                                            <select name="genre_musical" id="genre_musical">
+                                                <option value="Rock">Rock</option>
+                                                <option value="Pop">Pop</option>
+                                                <option value="Hip-Hop">Hip-Hop</option>
+                                                <option value="Jazz">Jazz</option>
+                                                <option value="Classical">Classical</option>
+                                                <option value="Electronic">Electronic</option>
+                                                <option value="Reggae">Reggae</option>
+                                                <option value="Country">Country</option>
+                                                <option value="Blues">Blues</option>
+                                                <option value="Soul">Soul</option>
+                                                <option value="Metal">Metal</option>
+                                                <option value="Punk">Punk</option>
+                                                <option value="Folk">Folk</option>
+                                                <option value="Disco">Disco</option>
+                                                <option value="Funk">Funk</option>
+                                                <option value="R&B">R&B</option>
+                                                <option value="Gospel">Gospel</option>
+                                                <option value="Latin">Latin</option>
+                                                <option value="Reggaeton">Reggaeton</option>
+                                                <option value="Ska">Ska</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -143,7 +174,6 @@
                         <div class="field-label is-normal">
                             <label for="prix" class="label">Prix:</label>
                         </div>
-
                         <div class="field-body">
                             <div class="field">
                                 <div class="control">

@@ -72,6 +72,7 @@ $result_recent = $conn->query($sql_recent);
         <?php while ($row = $result_recent->fetch_assoc()): ?>
             <div>
                 <p>Type: <?php echo $row['type_publication']; ?></p>
+                <p>Genre musical: <?php echo $row['genre_musical']; ?></p>
                 <p>Titre: <?php echo $row['titre']; ?></p>
                 <a href='post_info.php?id=<?php echo $row['id']; ?>'>Voir plus</a>
             </div>

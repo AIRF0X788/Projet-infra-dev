@@ -43,6 +43,7 @@
                 echo "<div>";
                 echo "<p>Type de publication: " . $row['type_publication'] . "</p>";
                 echo "<p>Titre: " . $row['titre'] . "</p>";
+                echo "<p>Genre musical: " . $row['genre_musical'] . "</p>";
                 echo "<p>Description: " . $row['description'] . "</p>";
                 if ($row['payant'] === 1 && !empty($row['prix'])) {
                     echo "<p>Prix: " . $row['prix'] . "</p>";

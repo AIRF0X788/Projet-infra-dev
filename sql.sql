@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS publications (
     lien_audio VARCHAR(255),
     date_publication DATETIME,
     likes_count INT DEFAULT 0,
+    genre_musical VARCHAR(255),
     FOREIGN KEY (user_id) REFERENCES utilisateurs(id_utilisateur) ON DELETE CASCADE
 );
 

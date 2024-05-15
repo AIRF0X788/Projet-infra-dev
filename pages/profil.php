@@ -154,8 +154,6 @@ $conn->close();
             </li>
         </ul>
     </nav>
-    <!-- <a href="logout.php">Déconnexion</a>
-    <a href="main.php">Retourner à la page d'accueil</a> -->
     <div class="container-fluid main" style="height:100vh;padding-left:25%;">
         <div class="row align-items-center" style="height:100%">
             <div class="col-md-9">
