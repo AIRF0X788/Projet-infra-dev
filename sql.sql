@@ -15,7 +15,6 @@ CREATE TABLE IF NOT EXISTS categories (
 
 INSERT INTO categories (name) VALUES ('Beatmaker'), ('Ghostwriter'), ('Chanteur'), ('Producteur');
 
-
 CREATE TABLE IF NOT EXISTS user_categories (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
@@ -23,7 +22,6 @@ CREATE TABLE IF NOT EXISTS user_categories (
     FOREIGN KEY (user_id) REFERENCES utilisateurs(id_utilisateur),
     FOREIGN KEY (category_id) REFERENCES categories(id)
 );
-
 
 CREATE TABLE IF NOT EXISTS publications (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -36,15 +34,16 @@ CREATE TABLE IF NOT EXISTS publications (
     contenu_texte TEXT,
     lien_audio VARCHAR(255),
     date_publication DATETIME,
-    likes_count INT DEFAULT 0
+    likes_count INT DEFAULT 0,
+    FOREIGN KEY (user_id) REFERENCES utilisateurs(id_utilisateur) ON DELETE CASCADE
 );
 
-CREATE TABLE achats (
+CREATE TABLE IF NOT EXISTS achats (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     prix DECIMAL(10,2),
     date_achat TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES utilisateurs(id_utilisateur),
     id_publication INT NOT NULL,
-    FOREIGN KEY (id_publication) REFERENCES publications(id)
+    FOREIGN KEY (user_id) REFERENCES utilisateurs(id_utilisateur),
+    FOREIGN KEY (id_publication) REFERENCES publications(id) ON DELETE CASCADE
 );

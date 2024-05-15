@@ -13,6 +13,10 @@
         <?php
         session_start();
 
+        if (!isset($_SESSION['user_id'])) {
+            die("Vous devez être connecté pour voir cette page.");
+        }
+
         $servername = "localhost";
         $username = "root";
         $password = "";
@@ -26,6 +30,7 @@
 
         if (isset($_GET['id'])) {
             $post_id = $_GET['id'];
+            $user_id = $_SESSION['user_id'];
 
             $sql = "SELECT * FROM publications WHERE id = ?";
             $stmt = $conn->prepare($sql);
@@ -73,6 +78,13 @@
                     echo "<button type='submit' class='btn btn-primary'>Like</button>";
                 }
                 echo "</form>";
+
+                if ($row['user_id'] == $user_id) {
+                    echo "<form method='POST' action='delete_post.php'>";
+                    echo "<input type='hidden' name='post_id' value='" . $post_id . "'>";
+                    echo "<button type='submit' class='btn btn-danger'>Supprimer</button>";
+                    echo "</form>";
+                }
             } else {
                 echo "Aucun poste trouvé avec cet ID.";
             }
