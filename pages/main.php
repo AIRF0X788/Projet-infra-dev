@@ -12,14 +12,22 @@ if ($conn->connect_error) {
     die("La connexion à la base de données a échoué : " . $conn->connect_error);
 }
 
-$sql = "SELECT * FROM publications ORDER BY date_publication DESC";
-$result = $conn->query($sql);
+$search_term = ""; 
 
-$sql_likes = "SELECT * FROM publications ORDER BY likes_count DESC LIMIT 5";
-$result_likes = $conn->query($sql_likes);
+if (isset($_GET['search'])) {
+    $search_term = $_GET['search']; 
+}
 
-$sql_recent = "SELECT * FROM publications ORDER BY date_publication DESC LIMIT 5";
-$result_recent = $conn->query($sql_recent);
+if (!empty($search_term)) {
+    $sql = "SELECT * FROM publications WHERE titre LIKE '%$search_term%' OR genre_musical LIKE '%$search_term%' OR type_publication LIKE '%$search_term%' ORDER BY date_publication DESC";
+    $result = $conn->query($sql);
+} else {
+    $sql_likes = "SELECT * FROM publications ORDER BY likes_count DESC LIMIT 5";
+    $result = $conn->query($sql_likes);
+
+    $sql_recent = "SELECT * FROM publications ORDER BY date_publication DESC LIMIT 5";
+    $result_recent = $conn->query($sql_recent);
+}
 
 ?>
 
@@ -30,6 +38,7 @@ $result_recent = $conn->query($sql_recent);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../css/navbar.css">
+    <link rel="stylesheet" type="text/css" href="../css/search.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Home</title>
 </head>
@@ -54,36 +63,69 @@ $result_recent = $conn->query($sql_recent);
             </li>
         </ul>
     </nav>
-    <h1>Les plus likés</h1>
-    <?php if ($result_likes->num_rows > 0): ?>
-        <?php while ($row = $result_likes->fetch_assoc()): ?>
-            <div>
-                <p>Type: <?php echo $row['type_publication']; ?></p>
-                <p>Titre: <?php echo $row['titre']; ?></p>
-                <a href='post_info.php?id=<?php echo $row['id']; ?>'>Voir plus</a>
+    <div class="search">
+        <form method="GET" action="">
+            <div class="wrapper">
+                <div class="searchBar">
+                    <button id="searchQuerySubmit" type="submit" name="search">
+                        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                            <path fill="#666666" d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
+                        </svg>
+                    </button>
+                    <input id="searchQueryInput" type="text" name="search" placeholder="Chercher le titre, genre muscial ou type..." value="<?php echo $search_term; ?>" />
+                </div>
             </div>
-        <?php endwhile; ?>
-    <?php else: ?>
-        <p>Aucune publication disponible.</p>
-    <?php endif; ?>
+        </form>
+    </div>
+    <?php if (!empty($search_term)) : ?>
+        <h1>Résultats de la recherche pour "<?php echo $search_term; ?>"</h1>
+        <?php if ($result->num_rows > 0) : ?>
+            <?php while ($row = $result->fetch_assoc()) : ?>
+                <div>
+                    <p>Type: <?php echo $row['type_publication']; ?></p>
+                    <p>Titre: <?php echo $row['titre']; ?></p>
+                    <p>Genre musical: <?php echo $row['genre_musical']; ?></p>
+                    <a href='post_info.php?id=<?php echo $row['id']; ?>'>Voir plus</a>
+                </div>
+            <?php endwhile; ?>
+        <?php else : ?>
+            <p>Aucun résultat trouvé.</p>
+        <?php endif; ?>
+    <?php else : ?>
+        <h1>Les plus likés</h1>
+        <?php if ($result->num_rows > 0) : ?>
+            <?php while ($row = $result->fetch_assoc()) : ?>
+                <div>
+                    <p>Type: <?php echo $row['type_publication']; ?></p>
+                    <p>Titre: <?php echo $row['titre']; ?></p>
+                    <p>Genre musical: <?php echo $row['genre_musical']; ?></p>
+                    <a href='post_info.php?id=<?php echo $row['id']; ?>'>Voir plus</a>
+                </div>
+            <?php endwhile; ?>
+        <?php else : ?>
+            <p>Aucune publication disponible.</p>
+        <?php endif; ?>
 
-    <h1>Les plus récents</h1>
-    <?php if ($result_recent->num_rows > 0): ?>
-        <?php while ($row = $result_recent->fetch_assoc()): ?>
-            <div>
-                <p>Type: <?php echo $row['type_publication']; ?></p>
-                <p>Genre musical: <?php echo $row['genre_musical']; ?></p>
-                <p>Titre: <?php echo $row['titre']; ?></p>
-                <a href='post_info.php?id=<?php echo $row['id']; ?>'>Voir plus</a>
-            </div>
-        <?php endwhile; ?>
-    <?php else: ?>
-        <p>Aucune publication disponible.</p>
+        <h1>Les plus récents</h1>
+        <?php if ($result_recent->num_rows > 0) : ?>
+            <?php while ($row_recent = $result_recent->fetch_assoc()) : ?>
+                <div>
+                    <p>Type: <?php echo $row_recent['type_publication']; ?></p>
+                    <p>Genre musical: <?php echo $row_recent['genre_musical']; ?></p>
+                    <p>Titre: <?php echo $row_recent['titre']; ?></p>
+                    <a href='post_info.php?id=<?php echo $row_recent['id']; ?>'>Voir plus</a>
+                </div>
+            <?php endwhile; ?>
+        <?php else : ?>
+            <p>Aucune publication récente disponible.</p>
+        <?php endif; ?>
     <?php endif; ?>
 
     <?php $conn->close(); ?>
 
-    <script>feather.replace()</script>
+    <script>
+        feather.replace()
+    </script>
 </body>
 
 </html>
