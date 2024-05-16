@@ -92,9 +92,30 @@
         } else {
             echo "ID de poste non spécifié.";
         }
-
-        $conn->close();
         ?>
+    </div>
+    <div>
+        <h3>Commentaires</h3>
+        <?php
+        $sql_comments = "SELECT c.*, u.nom_utilisateur FROM commentaires c INNER JOIN utilisateurs u ON c.user_id = u.id_utilisateur WHERE c.publication_id = ?";
+        $stmt_comments = $conn->prepare($sql_comments);
+        $stmt_comments->bind_param("i", $post_id);
+        $stmt_comments->execute();
+        $result_comments = $stmt_comments->get_result();
+        
+        if ($result_comments->num_rows > 0) {
+            while ($row_comment = $result_comments->fetch_assoc()) {
+                echo "<p><strong>" . $row_comment['nom_utilisateur'] . ":</strong> " . $row_comment['commentaire'] . "</p>";
+            }
+        } else {
+            echo "<p>Aucun commentaire trouvé.</p>";
+        }
+        ?>
+        <form method="POST" action="traitement_commentaire.php">
+            <input type="hidden" name="publication_id" value="<?php echo $post_id; ?>">
+            <textarea name="commentaire" rows="4" cols="50" required></textarea><br>
+            <button type="submit">Ajouter un commentaire</button>
+        </form>
     </div>
     <script>
         document.getElementById("previewButton").addEventListener("click", function() {

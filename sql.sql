@@ -48,3 +48,14 @@ CREATE TABLE IF NOT EXISTS achats (
     FOREIGN KEY (user_id) REFERENCES utilisateurs(id_utilisateur),
     FOREIGN KEY (id_publication) REFERENCES publications(id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS commentaires (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    publication_id INT NOT NULL,
+    user_id INT NOT NULL,
+    commentaire TEXT,
+    date_commentaire DATETIME,
+    FOREIGN KEY (publication_id) REFERENCES publications(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES utilisateurs(id_utilisateur) ON DELETE CASCADE
+);
+
