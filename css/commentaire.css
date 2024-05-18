@@ -1,0 +1,141 @@
+* {
+   margin: 0;
+   padding: 0;
+   -webkit-box-sizing: border-box;
+   -moz-box-sizing: border-box;
+   box-sizing: border-box;
+}
+
+a {
+   color: #7b19fa; /* Couleur violette pour le lien */
+   font-weight: bold;
+   text-decoration: none;
+}
+
+ul {
+   list-style-type: none;
+}
+
+body {
+   background-color: #ecf0f3;
+   color: #333;
+   font-family: 'Roboto', Arial, Helvetica, Sans-serif, Verdana;
+}
+
+.publication-container {
+   width: 500px;
+   max-width: 500px;
+   margin: 20px auto; /* Centrer le conteneur */
+   padding: 20px;
+   background-color: #fff;
+   border-radius: 10px;
+   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.publication-container h2 {
+   margin-bottom: 10px;
+   font-size: 24px;
+   color: #333;
+}
+
+.publication-container p {
+   margin-bottom: 10px;
+   font-size: 14px;
+   color: #777;
+}
+
+.publication-container button {
+   display: block;
+   margin: 10px 0;
+   padding: 10px 20px;
+   background-color: #7b19fa;
+   color: #fff;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+   transition: background-color 0.3s ease;
+}
+
+.publication-container button:hover {
+   background-color: #5903d7;
+}
+
+.comments-container {
+   width: 500px;
+   max-width: 500px;
+   margin: 20px auto; /* Centrer le conteneur */
+}
+
+.comments-list {
+   margin-top: 30px;
+   padding: 0;
+}
+
+.comments-list ul {
+   padding: 0;
+}
+
+.comments-list li {
+   margin-bottom: 20px;
+}
+
+.comment-main-level {
+   display: flex;
+}
+
+.comment-box {
+   background-color: #fff;
+   border-radius: 5px;
+   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+   padding: 10px;
+   width: 100%;
+}
+
+.comment-head {
+   display: flex;
+   justify-content: space-between;
+   margin-bottom: 10px;
+}
+
+.comment-head .comment-name a {
+   color: #333;
+   font-weight: bold;
+   text-decoration: none;
+}
+
+.comment-content {
+   font-size: 14px;
+   color: #777;
+}
+
+.write-new {
+   margin-top: 20px;
+   background-color: #fff;
+   padding: 15px;
+   border-radius: 5px;
+   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+.write-new textarea {
+   width: 100%;
+   padding: 10px;
+   font-size: 14px;
+   border: 1px solid #ccc;
+   border-radius: 5px;
+   resize: none;
+   margin-bottom: 10px;
+}
+
+.write-new button {
+   background-color: #7b19fa;
+   color: #fff;
+   padding: 10px 20px;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+   transition: background-color 0.3s ease;
+}
+
+.write-new button:hover {
+   background-color: #5903d7;
+}
