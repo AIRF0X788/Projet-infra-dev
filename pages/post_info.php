@@ -15,7 +15,7 @@
     <nav class="navbars">
         <ul class="navbar__menu">
         <li class="navbar__item">
-                <a href="post.php" class="navbar__link"><i class="fa fa-home"></i><span>Home</span></a>
+                <a href="main.php" class="navbar__link"><i class="fa fa-home"></i><span>Home</span></a>
             </li>
             <li class="navbar__item">
                 <a href="profil.php" class="navbar__link"><i class="fa fa-address-card"></i><span>Voir mon profil</span></a>

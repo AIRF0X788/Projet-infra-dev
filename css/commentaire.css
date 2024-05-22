@@ -1,13 +1,12 @@
 * {
    margin: 0;
-   padding: 0;
    -webkit-box-sizing: border-box;
    -moz-box-sizing: border-box;
    box-sizing: border-box;
 }
 
 a {
-   color: #7b19fa; /* Couleur violette pour le lien */
+   color: #7b19fa; 
    font-weight: bold;
    text-decoration: none;
 }
@@ -25,7 +24,7 @@ body {
 .publication-container {
    width: 500px;
    max-width: 500px;
-   margin: 20px auto; /* Centrer le conteneur */
+   margin: 20px auto; 
    padding: 20px;
    background-color: #fff;
    border-radius: 10px;
@@ -63,7 +62,7 @@ body {
 .comments-container {
    width: 500px;
    max-width: 500px;
-   margin: 20px auto; /* Centrer le conteneur */
+   margin: 20px auto; 
 }
 
 .comments-list {

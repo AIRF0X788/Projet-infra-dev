@@ -12,10 +12,10 @@ if ($conn->connect_error) {
     die("La connexion à la base de données a échoué : " . $conn->connect_error);
 }
 
-$search_term = ""; 
+$search_term = "";
 
 if (isset($_GET['search'])) {
-    $search_term = $_GET['search']; 
+    $search_term = $_GET['search'];
 }
 
 if (!empty($search_term)) {
@@ -39,6 +39,7 @@ if (!empty($search_term)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../css/navbar.css">
     <link rel="stylesheet" type="text/css" href="../css/search.css">
+    <link rel="stylesheet" type="text/css" href="../css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Home</title>
 </head>
@@ -92,35 +93,65 @@ if (!empty($search_term)) {
             <p>Aucun résultat trouvé.</p>
         <?php endif; ?>
     <?php else : ?>
-        <h1>Les plus likés</h1>
-        <?php if ($result->num_rows > 0) : ?>
-            <?php while ($row = $result->fetch_assoc()) : ?>
-                <div>
-                    <p>Type: <?php echo $row['type_publication']; ?></p>
-                    <p>Titre: <?php echo $row['titre']; ?></p>
-                    <p>Genre musical: <?php echo $row['genre_musical']; ?></p>
-                    <a href='post_info.php?id=<?php echo $row['id']; ?>'>Voir plus</a>
-                </div>
-            <?php endwhile; ?>
-        <?php else : ?>
-            <p>Aucune publication disponible.</p>
-        <?php endif; ?>
-
-        <h1>Les plus récents</h1>
-        <?php if ($result_recent->num_rows > 0) : ?>
-            <?php while ($row_recent = $result_recent->fetch_assoc()) : ?>
-                <div>
-                    <p>Type: <?php echo $row_recent['type_publication']; ?></p>
-                    <p>Genre musical: <?php echo $row_recent['genre_musical']; ?></p>
-                    <p>Titre: <?php echo $row_recent['titre']; ?></p>
-                    <a href='post_info.php?id=<?php echo $row_recent['id']; ?>'>Voir plus</a>
-                </div>
-            <?php endwhile; ?>
-        <?php else : ?>
-            <p>Aucune publication récente disponible.</p>
-        <?php endif; ?>
+        <div class="container-topics">
+            <section class="existing-topics">
+                <h1>Les plus likés</h1>
+                <?php if ($result->num_rows > 0) : ?>
+                    <ul>
+                        <?php while ($row = $result->fetch_assoc()) : ?>
+                            <li class="topic-item">
+                                <div class="topic-wrapper">
+                                    <a class="title"><?php echo htmlspecialchars($row['titre']); ?></a>
+                                    <br>
+                                    <i class="fa fa-headphones" aria-hidden="true"> <?php echo htmlspecialchars($row['genre_musical']); ?></i>
+                                    <br>
+                                    <p>Type de publication:
+                                        <?php if ($row['type_publication'] == 'prod') : ?>
+                                            <i class="fa fa-music" aria-hidden="true"></i> Prod
+                                        <?php else : ?>
+                                            <i class="fa fa-file-text" aria-hidden="true"></i> Texte
+                                        <?php endif; ?>
+                                    </p>
+                                    <a href="post_info.php?id=<?php echo $row['id']; ?>" style="text-decoration: none;">Découvrir ...</a>
+                                </div>
+                            </li>
+                        <?php endwhile; ?>
+                    </ul>
+                <?php else : ?>
+                    <p>Aucune publication disponible.</p>
+                <?php endif; ?>
+            </section>
+        </div>
+        <div class="container-topics">
+            <section class="existing-topics">
+                <h1>Les plus récents</h1>
+                <?php if ($result_recent->num_rows > 0) : ?>
+                    <ul>
+                        <?php while ($row_recent = $result_recent->fetch_assoc()) : ?>
+                            <li class="topic-item">
+                                <div class="topic-wrapper">
+                                    <a class="title"><?php echo htmlspecialchars($row_recent['titre']); ?></a>
+                                    <br>
+                                    <i class="fa fa-headphones" aria-hidden="true"> <?php echo htmlspecialchars($row_recent['genre_musical']); ?></i>
+                                    <br>
+                                    <p>Type de publication:
+                                        <?php if ($row_recent['type_publication'] == 'prod') : ?>
+                                            <i class="fa fa-music" aria-hidden="true"></i> Prod
+                                        <?php else : ?>
+                                            <i class="fa fa-file-text" aria-hidden="true"></i> Texte
+                                        <?php endif; ?>
+                                    </p>
+                                    <a href="post_info.php?id=<?php echo $row_recent['id']; ?>" style="text-decoration: none;">Découvrir ...</a>
+                                </div>
+                            </li>
+                        <?php endwhile; ?>
+                    </ul>
+                <?php else : ?>
+                    <p>Aucune publication récente disponible.</p>
+                <?php endif; ?>
+            </section>
+        </div>
     <?php endif; ?>
-
     <?php $conn->close(); ?>
 
     <script>
