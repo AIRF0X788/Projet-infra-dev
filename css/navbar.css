@@ -1,8 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap");
 
 body {
-    background-color: #ecf0f3;
-    color: #a0a5a8;
+    background-color: #ecf0f3 !important;
+    color: #a0a5a8 !important;
     font-family: "Montserrat", sans-serif;
 }
 

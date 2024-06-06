@@ -183,3 +183,52 @@ form .btn {
 .expand-menu.animate {
     width: 100%;
 }
+
+#profilePicture {
+    cursor: pointer;
+}
+
+.overlay {
+    position: absolute;
+    margin-top: -20%;
+    top: 0;
+    left: 0;
+    width: 130px;
+    height: 130px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.overlay:hover {
+    opacity: 1;
+}
+
+#fileInput {
+    display: none;
+    position: absolute;
+    margin-top: -20%;
+    top: 0;
+    left: 0;
+    width: 130px;
+    height: 130px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+#submitButton {
+    width: 130px;
+}

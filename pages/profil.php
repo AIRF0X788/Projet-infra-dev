@@ -19,9 +19,26 @@ if ($conn->connect_error) {
     die("La connexion à la base de données a échoué : " . $conn->connect_error);
 }
 
-$success_username = $success_email = $success_password = "";
+$success_username = $success_email = $success_password = $success_picture = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['update_picture'])) {
+        if (isset($_FILES['new_profile_picture']) && $_FILES['new_profile_picture']['error'] === UPLOAD_ERR_OK) {
+            $profile_picture = file_get_contents($_FILES['new_profile_picture']['tmp_name']);
+        }
+        $sql_update_picture = "UPDATE utilisateurs SET profile_picture = ? WHERE id_utilisateur = ?";
+        $stmt_update_picture = $conn->prepare($sql_update_picture);
+        $stmt_update_picture->bind_param("si", $profile_picture, $user_id);
+        $stmt_update_picture->send_long_data(4, $profile_picture);
+        if ($stmt_update_picture->execute()) {
+            $success_picture = "Photo de profil mise à jour avec succès.";
+        } else {
+            echo "Erreur lors de la mise à jour de la photo de profil : " . $stmt_update_picture->error;
+        }
+    }
+
+
+
     if (isset($_POST['change_username'])) {
         $new_username = $_POST['new_username'];
         $sql = "UPDATE utilisateurs SET nom_utilisateur = ? WHERE id_utilisateur = ?";
@@ -89,7 +106,7 @@ while ($row = $result_user_categories->fetch_assoc()) {
     $user_categories[] = $row['category_id'];
 }
 
-$sql = "SELECT id_utilisateur, nom_utilisateur, email FROM utilisateurs WHERE id_utilisateur = ?";
+$sql = "SELECT id_utilisateur, nom_utilisateur, email, profile_picture FROM utilisateurs WHERE id_utilisateur = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
@@ -100,9 +117,11 @@ if ($result->num_rows > 0) {
     $user_id = $row['id_utilisateur'];
     $nom_utilisateur = $row['nom_utilisateur'];
     $email = $row['email'];
+    $profile_picture = $row['profile_picture'];
 } else {
     echo "Aucun résultat trouvé pour cet utilisateur.";
 }
+
 
 $sql = "SELECT c.name FROM categories c
         INNER JOIN user_categories uc ON c.id = uc.category_id
@@ -135,7 +154,7 @@ $conn->close();
 </head>
 
 <body>
-<nav class="navbars">
+    <nav class="navbars">
         <ul class="navbar__menu">
             <li class="navbar__item">
                 <a href="main.php" class="navbar__link"><i class="fa fa-home"></i><span>Home</span></a>
@@ -161,11 +180,24 @@ $conn->close();
                     <h2 class="mt-5 mb-5">Profil de <?php echo $nom_utilisateur; ?></h2>
                     <div class="row" style="height:100%">
                         <div class="col-md-3">
-                            <div href=# class="d-inline"><img
-                                    src="https://lens-storage.storage.googleapis.com/png/fb1637eb55b64fc0895801945c0d470e"
-                                    width=130px style="margin:0;"><br>
-                                <p class="pl-2 mt-2"><a href="#" class="btn" style="color:#8f9096;font-weight:600">Edit
-                                        Picture</a></p>
+                            <div class="d-inline position-relative profile-container">
+                                <?php if (!empty($profile_picture)): ?>
+                                    <img src="data:image/jpeg;base64,<?php echo base64_encode($profile_picture); ?>"
+                                        width="130px" height="130px" id="profilePicture" class="rounded-circle">
+                                <?php endif; ?>
+                                <form method="post" enctype="multipart/form-data" id="profileForm">
+                                    <div class="overlay">
+                                        Changer la photo de profil
+                                        <input type="file" name="new_profile_picture" accept="image/png, image/jpeg"
+                                            id="fileInput">
+                                    </div>
+                                    <br>
+                                    <button type="submit" name="update_picture" class="btn btn-primary btn-block"
+                                        id="submitButton">Enregistrer</button>
+                                    <br>
+                                    <p id="error-message" class="text-danger" style="display: none;">Vous devez choisir
+                                        une photo de profil.</p>
+                                </form>
                             </div>
                             <p><strong>ID Utilisateur:</strong> <?php echo $user_id; ?></p>
                             <p><strong>Nom d'utilisateur:</strong> <?php echo $nom_utilisateur; ?></p>
@@ -228,7 +260,8 @@ $conn->close();
                                     <button type="submit" name="update_categories"
                                         class="btn btn-primary btn-block">Mettre
                                         à jour les catégories</button>
-                                        <button type="button" class="mt-5 btn btn-default btn-block"><a href="logout.php" style="text-decoration:none;">Déconnexion</a></button>
+                                    <button type="button" class="mt-5 btn btn-default btn-block"><a href="logout.php"
+                                            style="text-decoration:none;">Déconnexion</a></button>
                                 </form>
                             </div>
                         </div>
@@ -237,6 +270,7 @@ $conn->close();
             </div>
         </div>
     </div>
+    <script src="../js/profil.js"></script>
 </body>
 
 </html>
