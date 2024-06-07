@@ -21,17 +21,36 @@ if (empty($_SESSION['user_id'])) {
 </head>
 
 <body>
-    <a href="main.php" class="btn btn-primary">Retour</a>
+    <nav class="navbars">
+        <ul class="navbar__menu">
+            <li class="navbar__item">
+                <a href="main.php" class="navbar__link"><i class="fa fa-home"></i><span>Home</span></a>
+            </li>
+            <li class="navbar__item">
+                <a href="profil.php" class="navbar__link"><i class="fa fa-address-card"></i><span>Voir mon
+                        profil</span></a>
+            </li>
+            <li class="navbar__item">
+                <a href="achat.php" class="navbar__link"><i class="fa fa-cart-plus"></i><span>Voir mes achats</span></a>
+            </li>
+            <li class="navbar__item">
+                <a href="prods.php" class="navbar__link"><i class="fa fa-headphones"></i><span>Prods</span></a>
+            </li>
+            <li class="navbar__item">
+                <a href="texte.php" class="navbar__link"><i class="fa fa-file-text-o"></i><span>Textes</span></a>
+            </li>
+        </ul>
+    </nav>
     <form method="post" action="traitement_publication.php" enctype="multipart/form-data">
         <section class="section">
             <div class="container">
-                <p class="has-text-white">Nouvelle Publication</p>
+                <p class="has-text-black">Nouvelle Publication</p>
                 <hr>
                 <div class="columns is-centered">
                     <div class="column is-8">
                         <div class="field is-horizontal">
                             <div class="field-label is-normal">
-                                <label for="type_publication" class="label">Type de publication:</label>
+                                <label for="type_publication" class="label has-text-black">Type de publication:</label>
                             </div>
                             <div class="field-body">
                                 <div class="field">
@@ -50,7 +69,7 @@ if (empty($_SESSION['user_id'])) {
                         <div id="textFields">
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal">
-                                    <label class="label">Titre:</label>
+                                    <label class="label has-text-black">Titre:</label>
                                 </div>
                                 <div class="field-body">
                                     <div class="field">
@@ -62,7 +81,7 @@ if (empty($_SESSION['user_id'])) {
                             </div>
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal">
-                                    <label class="label">Description:</label>
+                                    <label class="label has-text-black">Description:</label>
                                 </div>
                                 <div class="field-body">
                                     <div class="field">
@@ -74,7 +93,7 @@ if (empty($_SESSION['user_id'])) {
                             </div>
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal">
-                                    <label class="label">Contenu du Texte:</label>
+                                    <label class="label has-text-black">Contenu du Texte:</label>
                                 </div>
                                 <div class="field-body">
                                     <div class="field">
@@ -89,7 +108,7 @@ if (empty($_SESSION['user_id'])) {
                         <div id="audioFields" style="display:none;">
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal">
-                                    <label class="label">Titre:</label>
+                                    <label class="label has-text-black">Titre:</label>
                                 </div>
                                 <div class="field-body">
                                     <div class="field">
@@ -101,7 +120,7 @@ if (empty($_SESSION['user_id'])) {
                             </div>
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal">
-                                    <label class="label">Description:</label>
+                                    <label class="label has-text-black">Description:</label>
                                 </div>
                                 <div class="field-body">
                                     <div class="field">
@@ -130,10 +149,10 @@ if (empty($_SESSION['user_id'])) {
                                 </div>
                             </div>
                         </div>
-
+                        <br>
                         <div class="field is-horizontal">
                             <div class="field-label is-normal">
-                                <label class="label">Genre Musical:</label>
+                                <label class="label has-text-black">Genre Musical:</label>
                             </div>
                             <div class="field-body">
                                 <div class="field">
@@ -173,7 +192,7 @@ if (empty($_SESSION['user_id'])) {
         </section>
 
         <section class="section">
-            <label class="columns is-centered" for="payant">Payant:&nbsp
+            <label class="columns is-centered has-text-black" for="payant">Payant:&nbsp
                 <input type="checkbox" name="payant" id="payant" onchange="showPrice()">
             </label>
 
@@ -181,7 +200,7 @@ if (empty($_SESSION['user_id'])) {
                 <div class="field is-horizontal">
                     <div id="priceField" style="display:none;">
                         <div class="field-label is-normal">
-                            <label for="prix" class="label">Prix:</label>
+                            <label for="prix" class="label has-text-black">Prix:</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
