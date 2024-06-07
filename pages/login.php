@@ -43,16 +43,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $transport = new Swift_SmtpTransport('smtp.office365.com', 587, 'tls');
         $transport->setUsername('tomandcocontact@gmail.com');
         $transport->setPassword('Panam2004*');
-
-
         $mailer = new Swift_Mailer($transport);
 
-        $message = (new Swift_Message())
-            ->setSubject('Goodbye')
+        $message = (new Swift_Message('Goodbye'))
             ->setFrom(['tomandcocontact@gmail.com' => 'Projet infra/dev'])
             ->setTo([$email_to_delete])
             ->setBody('Vous avez supprimé votre compte');
-
 
         if ($mailer->send($message)) {
             echo "Compte supprimé et e-mail envoyé";
@@ -91,12 +87,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $username = $_POST['username'];
         $email = $_POST['email'];
         $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-
         $activation_token = bin2hex(random_bytes(32));
 
-        $sql = "INSERT INTO utilisateurs (nom_utilisateur, email, mot_de_passe, activation_token) VALUES (?, ?, ?, ?)";
+        $profile_picture = null; 
+        if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
+            $profile_picture = file_get_contents($_FILES['profile_picture']['tmp_name']);
+        } else {
+            $default_profile_picture_path = '../uploads/default_profile_picture.jpg';
+            if (file_exists($default_profile_picture_path)) {
+                $profile_picture = file_get_contents($default_profile_picture_path);
+            } else {
+                $profile_picture = null;
+            }
+        }
+
+        $sql = "INSERT INTO utilisateurs (nom_utilisateur, email, mot_de_passe, activation_token, profile_picture) VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssss", $username, $email, $password, $activation_token);
+        $stmt->bind_param("sssss", $username, $email, $password, $activation_token, $profile_picture);
+        $stmt->send_long_data(4, $profile_picture); 
         $stmt->execute();
 
         $user_id = $conn->insert_id;
@@ -116,8 +124,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $transport = new Swift_SmtpTransport('smtp.office365.com', 587, 'tls');
         $transport->setUsername('tomandcocontact@gmail.com');
         $transport->setPassword('Panam2004*');
-
-
         $mailer = new Swift_Mailer($transport);
 
         $message = (new Swift_Message('Bienvenue sur Projet infra/dev'))
@@ -147,15 +153,16 @@ ob_end_flush();
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
 </head>
 
-
 <body>
     <div class="main">
         <div class="container a-container" id="a-container">
-            <form class="form" id="a-form" method="post" action="./login.php">
+            <form class="form" id="a-form" method="post" action="./login.php" enctype="multipart/form-data">
                 <h2 class="form_title title">Créer un compte</h2>
                 <input class="form__input" type="text" name="username" for="username" id="username" autocomplete="off" placeholder="Nom d'utilisateur" required>
                 <input class="form__input" type="email" name="email" for="email" id="email" autocomplete="off" placeholder="Email" required>
                 <input class="form__input" type="password" name="password" for="password" id="password" autocomplete="off" placeholder="Mot de passe" required>
+                <label for="profile_picture">Photo de profil :</label>
+                <input type="file" name="profile_picture" id="profile_picture">
                 <label for="categories">Catégories :</label><br>
                 <input type="checkbox" name="categories[]" value="1"> Beatmaker<br>
                 <input type="checkbox" name="categories[]" value="2"> Ghostwriter<br>
@@ -188,7 +195,6 @@ ob_end_flush();
         </div>
     </div>
     <script src="../js/login.js"></script>
-
 </body>
 
 </html>
