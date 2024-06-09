@@ -32,30 +32,7 @@ if ($result_check_admin->num_rows === 0) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['delete_user'])) {
-        $email_to_delete = $_POST['email_to_delete'];
-
-        $sql = "DELETE FROM utilisateurs WHERE email = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $email_to_delete);
-        $stmt->execute();
-
-        $transport = new Swift_SmtpTransport('smtp.office365.com', 587, 'tls');
-        $transport->setUsername('tomandcocontact@gmail.com');
-        $transport->setPassword('Panam2004*');
-        $mailer = new Swift_Mailer($transport);
-
-        $message = (new Swift_Message('Goodbye'))
-            ->setFrom(['tomandcocontact@gmail.com' => 'Projet infra/dev'])
-            ->setTo([$email_to_delete])
-            ->setBody('Vous avez supprimé votre compte');
-
-        if ($mailer->send($message)) {
-            echo "Compte supprimé et e-mail envoyé";
-        } else {
-            echo "Erreur lors de l'envoi de l'e-mail";
-        }
-    } elseif (isset($_POST['login'])) {
+    if (isset($_POST['login'])) {
         $login_username = $_POST['login_username'];
         $login_password = $_POST['login_password'];
 
@@ -89,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
         $activation_token = bin2hex(random_bytes(32));
 
-        $profile_picture = null; 
+        $profile_picture = null;
         if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
             $profile_picture = file_get_contents($_FILES['profile_picture']['tmp_name']);
         } else {
@@ -104,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $sql = "INSERT INTO utilisateurs (nom_utilisateur, email, mot_de_passe, activation_token, profile_picture) VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("sssss", $username, $email, $password, $activation_token, $profile_picture);
-        $stmt->send_long_data(4, $profile_picture); 
+        $stmt->send_long_data(4, $profile_picture);
         $stmt->execute();
 
         $user_id = $conn->insert_id;
@@ -121,20 +98,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $activation_link = "https://soundsphere/pages/activer_compte.php?token=" . $activation_token;
 
-        $transport = new Swift_SmtpTransport('smtp.office365.com', 587, 'tls');
-        $transport->setUsername('tomandcocontact@gmail.com');
-        $transport->setPassword('Panam2004*');
+        $transport = (new Swift_SmtpTransport('smtp.office365.com', 587, 'tls'))
+            ->setUsername('tomandcocontact@gmail.com')
+            ->setPassword('Panam2004*')
+            ->setStreamOptions([
+                'ssl' => [
+                    'allow_self_signed' => true,
+                    'verify_peer' => false,
+                ],
+            ]);
+
         $mailer = new Swift_Mailer($transport);
 
-        $message = (new Swift_Message('Bienvenue sur Projet infra/dev'))
-            ->setFrom(['tomandcocontact@gmail.com' => 'Projet infra/dev'])
-            ->setTo([$email])
+        $message = (new Swift_Message('Bienvenue sur Soundsphere'))
+            ->setFrom(['tomandcocontact@gmail.com' => 'Soundsphere'])
+            ->setTo([$email]) 
             ->setBody("Bonjour $username,\n\nMerci d'avoir créé un compte sur notre site. Cliquez sur le lien suivant pour activer votre compte :\n$activation_link\n\nCordialement");
 
-        if ($mailer->send($message)) {
-            echo "<script>alert('Success.');</script>";
+        $result = $mailer->send($message);
+
+        if ($result) {
+            echo "E-mail envoyé avec succès.";
         } else {
-            echo "<script>alert('Failure.');</script>";
+            echo "Erreur lors de l'envoi de l'e-mail.";
         }
     }
 }
