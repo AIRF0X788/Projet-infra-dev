@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id'])) {
 
 $servername = "localhost";
 $username = "root";
-$password = "";
+$password = "root";
 $database = "infra/dev";
 
 $conn = new mysqli($servername, $username, $password, $database);

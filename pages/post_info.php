@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <!-- <a href="main.php" class="btn btn-primary">Retour</a> -->
+    <a href="main.php" class="btn btn-primary">Retour</a>
     <nav class="navbars">
         <ul class="navbar__menu">
         <li class="navbar__item">
@@ -41,7 +41,7 @@
 
         $servername = "localhost";
         $username = "root";
-        $password = "";
+        $password = "root";
         $database = "infra/dev";
 
         $conn = new mysqli($servername, $username, $password, $database);
@@ -69,24 +69,38 @@
                 echo "<p><strong>Description:</strong> " . htmlspecialchars($row['description']) . "</p>";
                 if ($row['payant'] === 1 && !empty($row['prix'])) {
                     echo "<p><strong>Prix:</strong> " . htmlspecialchars($row['prix']) . "</p>";
+                    $prix_produit = $row['prix'];
                 }
                 if ($row['type_publication'] === 'texte' && !empty($row['contenu_texte'])) {
                     echo "<p><strong>Texte:</strong> " . htmlspecialchars($row['contenu_texte']) . "</p>";
                 }
-                if ($row['type_publication'] === 'prod' && !empty($row['lien_audio'])) {
+                if ($row['type_publication'] === 'prod' && !empty($row['audio_data'])) {
+                    $audio_url = "serve_audio.php?id=" . htmlspecialchars($row['id']);
                     if ($row['payant'] === 1 && !empty($row['prix'])) {
                         echo "<audio id='audioPlayer'>";
-                        echo "<source src='" . htmlspecialchars($row['lien_audio']) . "' type='audio/mpeg'>";
+                        echo "<source src='" . $audio_url . "' type='" . htmlspecialchars($row['audio_type']) . "'>";
                         echo "Votre navigateur ne prend pas en charge l'élément audio.";
                         echo "</audio>";
                         echo "<button id='previewButton'>Ecouter l'extrait de la prod</button>";
                     } else {
                         echo "<audio id='audioPlayer' controls>";
-                        echo "<source src='" . htmlspecialchars($row['lien_audio']) . "' type='audio/mpeg'>";
+                        echo "<source src='" . $audio_url . "' type='" . htmlspecialchars($row['audio_type']) . "'>";
                         echo "Votre navigateur ne prend pas en charge l'élément audio.";
                         echo "</audio>";
                     }
                 }
+                
+                // if (isset($prix_produit)) {
+                //     echo '<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">';
+                //     echo '<input type="hidden" name="cmd" value="_xclick">';
+                //     echo '<input type="hidden" name="business" value="sb-i0zuj26771389@business.example.com">';
+                //     echo '<input type="hidden" name="currency_code" value="EUR">';
+                //     echo '<input type="hidden" name="amount" value="' . htmlspecialchars($prix_produit, ENT_QUOTES, 'UTF-8') . '">';
+                //     echo '<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - Le moyen le plus sûr et le plus simple de payer en ligne !">';
+                //     echo '<img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1">';
+                //     echo '</form>';
+                // }
+
                 echo "</div>";
 
                 echo "<p><strong>Likes:</strong> " . htmlspecialchars($row['likes_count']) . "</p>";
@@ -144,7 +158,7 @@
                                         <h6 class="comment-name by-author">
                                             <a href="#"><?php echo htmlspecialchars($row_comment['nom_utilisateur']); ?></a>
                                         </h6>
-                                        <!-- <span><?php echo date("d/m/Y à H:i", strtotime($row_comment['date_creation'])); ?></span> -->
+                                        <?php echo date("d/m/Y à H:i", strtotime($row_comment['date_creation'])); ?></span>
                                     </div>
                                     <div class="comment-content">
                                         <?php echo htmlspecialchars($row_comment['commentaire']); ?>
@@ -159,6 +173,12 @@
             <?php endif; ?>
         </div>
     </div>
+
+    <?php if ($row['payant'] === 1 && !empty($row['prix'])): ?>
+            <a href="process_payment.php?id=<?php echo htmlspecialchars($post_id); ?>&prix=<?php echo htmlspecialchars($row['prix']); ?>"
+                class="btn btn-primary">Payer</a>
+        <?php endif; ?>
+
     <script>
         document.getElementById("previewButton").addEventListener("click", function () {
             var audio = document.getElementById("audioPlayer");
@@ -169,12 +189,6 @@
             }, 15000);
         });
     </script>
-    <div class="container">
-        <?php if ($row['payant'] === 1 && !empty($row['prix'])): ?>
-            <a href="process_payment.php?id=<?php echo htmlspecialchars($post_id); ?>&prix=<?php echo htmlspecialchars($row['prix']); ?>"
-                class="btn btn-primary">Payer</a>
-        <?php endif; ?>
-    </div>
 </body>
 
 </html>

@@ -8,7 +8,7 @@ session_start();
 
 $servername = "localhost";
 $username = "root";
-$password = "";
+$password = "root";
 $database = "infra/dev";
 
 $conn = new mysqli($servername, $username, $password, $database);
@@ -17,8 +17,8 @@ if ($conn->connect_error) {
     die("La connexion à la base de données a échoué : " . $conn->connect_error);
 }
 
-$sql_check_admin = "SELECT id_utilisateur FROM utilisateurs WHERE nom_utilisateur = 'admin' AND est_admin = 1";
-$result_check_admin = $conn->query($sql_check_admin);
+// $sql_check_admin = "SELECT id_utilisateur FROM utilisateurs WHERE nom_utilisateur = 'admin' AND est_admin = 1";
+// $result_check_admin = $conn->query($sql_check_admin);
 
 if ($result_check_admin->num_rows === 0) {
     $admin_username = 'admin';
@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        $activation_link = "http://localhost/xampp/infradev/pages/activer_compte.php?token=" . $activation_token;
+        $activation_link = "https://soundsphere/pages/activer_compte.php?token=" . $activation_token;
 
         $transport = new Swift_SmtpTransport('smtp.office365.com', 587, 'tls');
         $transport->setUsername('tomandcocontact@gmail.com');

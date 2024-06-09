@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$conn = new mysqli("localhost", "root", "", "infra/dev");
+$conn = new mysqli("localhost", "root", "root", "infra/dev");
 
 if ($conn->connect_error) {
     die("Erreur de connexion à la base de données : " . $conn->connect_error);
@@ -9,7 +9,7 @@ if ($conn->connect_error) {
 
 $user_id = $_SESSION['user_id'];
 
-$sql = "SELECT achats.date_achat, achats.prix, publications.titre, publications.type_publication, publications.contenu_texte, publications.lien_audio
+$sql = "SELECT achats.date_achat, achats.prix, publications.titre, publications.type_publication, publications.contenu_texte, publications.audio_data
         FROM achats
         INNER JOIN publications ON achats.id_publication = publications.id
         WHERE achats.user_id = ?";

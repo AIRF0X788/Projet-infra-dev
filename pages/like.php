@@ -12,7 +12,7 @@ if (isset($_POST['publication_id'])) {
     if (!isset($_COOKIE['liked_' . $publication_id]) || $_COOKIE['liked_' . $publication_id] != 'true') {
         $servername = "localhost";
         $username = "root";
-        $password = "";
+        $password = "root";
         $database = "infra/dev";
 
         $conn = new mysqli($servername, $username, $password, $database);

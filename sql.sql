@@ -5,7 +5,8 @@ CREATE TABLE IF NOT EXISTS utilisateurs (
     mot_de_passe VARCHAR(255) NOT NULL,
     statut VARCHAR(10) NOT NULL DEFAULT 'inactif',
     activation_token VARCHAR(255) DEFAULT NULL,
-    est_admin BOOLEAN DEFAULT 0
+    est_admin BOOLEAN DEFAULT 0,
+    profile_picture LONGBLOB NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS categories (
@@ -32,12 +33,14 @@ CREATE TABLE IF NOT EXISTS publications (
     payant BOOLEAN DEFAULT 0,
     prix DECIMAL(10,2) DEFAULT 0.00,
     contenu_texte TEXT,
-    lien_audio VARCHAR(255),
+    audio_data LONGBLOB,
+    audio_type VARCHAR(255),
     date_publication DATETIME,
     likes_count INT DEFAULT 0,
     genre_musical VARCHAR(255),
     FOREIGN KEY (user_id) REFERENCES utilisateurs(id_utilisateur) ON DELETE CASCADE
 );
+
 
 CREATE TABLE IF NOT EXISTS achats (
     id INT AUTO_INCREMENT PRIMARY KEY,

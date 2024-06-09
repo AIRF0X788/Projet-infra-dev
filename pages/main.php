@@ -3,7 +3,7 @@ session_start();
 
 $servername = "localhost";
 $username = "root";
-$password = "";
+$password = "root";
 $database = "infra/dev";
 
 $conn = new mysqli($servername, $username, $password, $database);
@@ -106,7 +106,7 @@ if (!empty($search_term)) {
                                             <i class="fa fa-file-text" aria-hidden="true"></i> Texte
                                         <?php endif; ?>
                                     </p>
-                                    <p>Crée par : <?php echo $row['nom_utilisateur']; ?> le <?php echo $row['date_publication']; ?>
+                                    <p>Crée par <?php echo $row['nom_utilisateur']; ?> le <?php echo $row['date_publication']; ?>
                                     </p>
                                     <a href="post_info.php?id=<?php echo $row['id']; ?>" style="text-decoration: none;">Découvrir
                                         ...</a>

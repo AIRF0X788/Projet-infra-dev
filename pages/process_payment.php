@@ -20,16 +20,14 @@ $apiContext = new ApiContext(
 
 $apiContext->setConfig(['mode' => 'sandbox']);
 
-if(isset($_GET['prix'])) {
+if (isset($_GET['prix']) && isset($_GET['id'])) {
     $totalPrice = $_GET['prix'];
+    $post_id = $_GET['id'];
+} else {
+    die("Prix ou ID de publication manquant.");
 }
 
 $user_id = $_SESSION['user_id'];    
-$post_id = $_GET['id'];
-
-if(isset($_GET['prix'])) {
-    $prix = $_GET['prix'];
-}
 
 $payer = new Payer();
 $payer->setPaymentMethod('paypal');
@@ -40,10 +38,11 @@ $amount->setCurrency('EUR');
 
 $transaction = new Transaction();
 $transaction->setAmount($amount);
+$transaction->setDescription("Achat de publication $post_id");
 
 $redirectUrls = new RedirectUrls();
-$redirectUrls->setReturnUrl('http://localhost/xampp/infradev/pages/success.php')
-    ->setCancelUrl('http://localhost/xampp/infradev/pages/cancel.php');
+$redirectUrls->setReturnUrl('https://soundsphere/pages/success.php')
+    ->setCancelUrl('https://soundsphere/pages/cancel.php');
 
 $payment = new Payment();
 $payment->setIntent('sale')
@@ -54,7 +53,7 @@ $payment->setIntent('sale')
 try {
     $servername = "localhost";
     $username = "root";
-    $password = "";
+    $password = "root";
     $database = "infra/dev";
     $conn = new mysqli($servername, $username, $password, $database);
 
@@ -62,13 +61,17 @@ try {
         die("Erreur de connexion à la base de données: " . $conn->connect_error);
     }
 
-    $sql = "INSERT INTO achats (user_id, id_publication, prix, date_achat) VALUES (?, ?, ?, NOW())";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("iis", $user_id, $post_id, $prix);
+    $payment->create($apiContext);
+    $approvalUrl = $payment->getApprovalLink();
+
+    $paymentId = $payment->getId();
+    $stmt = $conn->prepare("INSERT INTO achats (user_id, id_publication, prix, date_achat, payment_id) VALUES (?, ?, ?, NOW(), ?)");
+    $stmt->bind_param("iiss", $user_id, $post_id, $totalPrice, $paymentId);
     $stmt->execute();
 
-    $payment->create($apiContext);
-    header('Location: ' . $payment->getApprovalLink());
+    $stmt->close();
+    $conn->close();
+    header('Location: ' . $approvalUrl);
     exit;
 } catch (Exception $ex) {
     echo "Une erreur s'est produite lors de la création du paiement PayPal: " . $ex->getMessage();

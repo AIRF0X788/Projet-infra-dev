@@ -24,7 +24,7 @@ $message = '';
 try {
     $payment = Payment::get($paymentId, $apiContext);
 
-    $conn = new mysqli("localhost", "root", "", "infra/dev");
+    $conn = new mysqli("localhost", "root", "root", "infra/dev");
 
     if ($conn->connect_error) {
         die("Erreur de connexion à la base de données : " . $conn->connect_error);

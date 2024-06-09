@@ -23,22 +23,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         }
         $contenu = $_POST['contenu_texte'];
-        $lien_audio = null;
+        $audio_data = null;
+        $audio_type = null;
     } elseif ($type_publication === 'prod') {
         if ($_FILES['audio']['error'] !== UPLOAD_ERR_OK) {
             echo "Veuillez sélectionner un fichier audio.";
             exit();
         }
-        $upload_dir = "../audio/";
-        $file_name = uniqid() . '_' . basename($_FILES['audio']['name']);
-        $target_path = $upload_dir . $file_name;
 
-        if (!move_uploaded_file($_FILES['audio']['tmp_name'], $target_path)) {
-            echo "Une erreur s'est produite lors du téléchargement du fichier audio.";
-            exit();
-        }
+        $audio_data = file_get_contents($_FILES['audio']['tmp_name']);
+        $audio_type = $_FILES['audio']['type'];
+
         $contenu = null;
-        $lien_audio = $target_path;
     } else {
         echo "Type de publication non valide.";
         exit();
@@ -46,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $servername = "localhost";
     $username = "root";
-    $password = "";
+    $password = "root";
     $database = "infra/dev";
 
     $conn = new mysqli($servername, $username, $password, $database);
@@ -56,11 +52,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $user_id = $_SESSION['user_id'];
-    $prix = isset($_POST['prix']) ? $_POST['prix'] : null;
+    $prix = null; 
 
-    $sql = "INSERT INTO publications (user_id, type_publication, genre_musical, titre, description, contenu_texte, lien_audio, prix, date_publication) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    if (isset($_POST['payant']) && $_POST['payant'] == 'on') {
+        $prix = isset($_POST['prix']) ? $_POST['prix'] : null;
+    }
+
+    $sql = "INSERT INTO publications (user_id, type_publication, genre_musical, titre, description, contenu_texte, audio_data, audio_type, prix, date_publication) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("issssssss", $user_id, $type_publication, $genre_musical, $titre, $description, $contenu, $lien_audio, $prix, $date_publication);
+    $stmt->bind_param("isssssssss", $user_id, $type_publication, $genre_musical, $titre, $description, $contenu, $audio_data, $audio_type, $prix, $date_publication);
     $stmt->execute();
 
     if (!empty($prix)) {
