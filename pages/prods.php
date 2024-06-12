@@ -40,6 +40,7 @@ if (!$result) {
     <link rel="stylesheet" type="text/css" href="../css/navbar.css">
     <link rel="stylesheet" type="text/css" href="../css/search.css">
     <link rel="stylesheet" type="text/css" href="../css/main.css">
+    <link rel="stylesheet" type="text/css" href="../css/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
@@ -66,29 +67,30 @@ if (!$result) {
     </nav>
     <div class="search">
         <form method="GET" action="">
+            <div id="titre">
+                <h1>SoundSphere</h1>
+            </div>
             <div class="wrapper">
                 <div class="searchBar">
                     <button id="searchQuerySubmit" type="submit" name="search">
                         <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                            <path fill="#666666"
-                                d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
+                            <path fill="#666666" d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
                         </svg>
                     </button>
-                    <input id="searchQueryInput" type="text" name="search"
-                        placeholder="Chercher le titre, genre musical ou type..."
-                        value="<?php echo htmlspecialchars($search_term); ?>" />
+                    <input id="searchQueryInput" type="text" name="search" placeholder="Chercher le titre, genre musical ou type..." value="<?php echo htmlspecialchars($search_term); ?>" />
+                    <div id="imageFond"></div>
                 </div>
             </div>
         </form>
     </div>
-    <?php if (!empty($search_term)): ?>
+    <?php if (!empty($search_term)) : ?>
         <h1>Résultats de la recherche pour "<?php echo htmlspecialchars($search_term); ?>"</h1>
     <?php endif; ?>
     <div class="container-topics">
         <section class="existing-topics">
-            <?php if ($result->num_rows > 0): ?>
+            <?php if ($result->num_rows > 0) : ?>
                 <ul>
-                    <?php while ($row = $result->fetch_assoc()): ?>
+                    <?php while ($row = $result->fetch_assoc()) : ?>
                         <li class="topic-item">
                             <div class="topic-wrapper">
                                 <a class="title"><?php echo htmlspecialchars($row['titre']); ?></a>
@@ -97,9 +99,9 @@ if (!$result) {
                                     <?php echo htmlspecialchars($row['genre_musical']); ?></i>
                                 <br>
                                 <p>Type de publication:
-                                    <?php if ($row['type_publication'] == 'prod'): ?>
+                                    <?php if ($row['type_publication'] == 'prod') : ?>
                                         <i class="fa fa-music" aria-hidden="true"></i> Prod
-                                    <?php else: ?>
+                                    <?php else : ?>
                                         <i class="fa fa-file-text" aria-hidden="true"></i> Texte
                                     <?php endif; ?>
                                 </p>
@@ -110,12 +112,18 @@ if (!$result) {
                         </li>
                     <?php endwhile; ?>
                 </ul>
-            <?php else: ?>
+            <?php else : ?>
                 <p>Aucune publication disponible.</p>
             <?php endif; ?>
         </section>
     </div>
     <?php $conn->close(); ?>
 </body>
+<footer class="footer">
+    <div class="footer-content">
+        <p>© 2024 Soundsphere. Tous droits réservés.</p>
+        <a href="./contact.php" class="contact-button">Nous contacter</a>
+    </div>
+</footer>
 
 </html>

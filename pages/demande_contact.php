@@ -10,47 +10,43 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="./catalogue.php">PHP</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto" style="font-size: 20px;">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="./catalogue.php">Accueil <span class="sr-only"></span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./profil.php">Profil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./basket.php">Basket</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./veste.php">Vestes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./pantalon.php">Pantalon</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
     <div class="container mt-5">
         <h2 class="container mt-5 mb-5">Liste des demandes de contact</h2>
         <?php
+
+        ob_start();
+        session_start();
+
         $servername = "localhost";
         $username = "root";
-        $password = "";
-        $database = "dbphp";
+        $password = "root";
+        $database = "infra/dev";
 
         $conn = new mysqli($servername, $username, $password, $database);
 
         if ($conn->connect_error) {
             die("La connexion à la base de données a échoué : " . $conn->connect_error);
+        }
+
+        if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
+            header('Location: login.php');
+            exit;
+        }
+
+        $user_id = $_SESSION['user_id'];
+
+        $sql = "SELECT est_admin FROM utilisateurs WHERE id_utilisateur = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('i', $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            if ($row['est_admin'] != 1) {
+                header('Location: main.php');
+                exit();
+            }
         }
 
         $sql = "SELECT * FROM demandes_contact ORDER BY date_demande DESC";
@@ -77,10 +73,6 @@
         $conn->close();
         ?>
     </div>
-
-    <footer>
-        © 2023 PHP Site Web
-    </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

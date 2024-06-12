@@ -1,3 +1,23 @@
+#imageFond {
+    background-image: url('../uploads/fond.jpg'); 
+    background-position: center top;
+    background-size: cover;
+    height: 300px;
+    position: absolute;
+    top: 0;
+    left: 0; 
+    width: 100%; 
+    z-index: -1; 
+}
+
+#titre {
+    text-align: center;
+    font-size: 36px;
+    font-family: 'Your Font', sans-serif;
+    margin-left: -3%;
+    margin-bottom: -4%;
+}
+
 .container-topics {
     display: flex;
     justify-content: center;

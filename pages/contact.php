@@ -1,8 +1,8 @@
 <?php
 $servername = "localhost";
 $username = "root";
-$password = "";
-$database = "dbphp";
+$password = "root";
+$database = "infra/dev";
 
 $conn = new mysqli($servername, $username, $password, $database);
 
@@ -42,49 +42,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="./catalogue.php">PHP</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto" style="font-size: 20px;">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="./catalogue.php">Accueil <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./profil.php">Profil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./basket.php">Basket</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./veste.php">Vestes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./pantalon.php">Pantalon</a>
-                    </li>
-                </ul>
-                <?php
-                if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
-                    $user_id = $_SESSION['user_id'];
-                    $sql_check_admin = "SELECT est_admin FROM utilisateurs WHERE id_utilisateur = ? AND est_admin = 1";
-                    $stmt_check_admin = $conn->prepare($sql_check_admin);
-                    $stmt_check_admin->bind_param("i", $user_id);
-                    $stmt_check_admin->execute();
-                    $result_check_admin = $stmt_check_admin->get_result();
-
-                    if ($result_check_admin->num_rows > 0) {
-                        echo '<a href="./admin.php" class="btn btn-success ml-2">Admin</a>';
-                    }
-                }
-                ?>
-            </div>
-        </div>
-    </nav>
-    
     <div class="container mt-3">
         <?php if (!empty($success_message)) : ?>
             <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
@@ -125,18 +82,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                         <span class="Email">
-                            <input for="email" type="email" name="email" id="email" size="40" class="emailinput"
-                                aria-required="true" aria-invalid="false" placeholder="Email" required>
+                            <input for="email" type="email" name="email" id="email" size="40" class="emailinput" aria-required="true" aria-invalid="false" placeholder="Email" required>
                         </span>
 
                         <span class="Name">
-                            <input for="sujet" type="text" name="sujet" id="sujet" value="" size="40" class="nameinput"
-                                aria-required="true" aria-invalid="false" placeholder="Sujet" required>
+                            <input for="sujet" type="text" name="sujet" id="sujet" value="" size="40" class="nameinput" aria-required="true" aria-invalid="false" placeholder="Sujet" required>
                         </span>
 
                         <span class="Message">
-                            <textarea for="message" name="message" id="message" cols="40" rows="10" aria-invalid="false"
-                                placeholder="Message" required></textarea>
+                            <textarea for="message" name="message" id="message" cols="40" rows="10" aria-invalid="false" placeholder="Message" required></textarea>
                         </span>
 
                         <input type="submit" value="Envoyer" class="button send">
@@ -160,11 +114,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             W = $('#wrapper'),
             P = $('#perspective'),
             closed = true;
-        $(function () {
+        $(function() {
             $("textarea").text("");
         });
 
-        F.click(function () {
+        F.click(function() {
             C.css({
                 'transition': 'all 1s',
                 'transform': 'rotateY(180deg)',
@@ -178,14 +132,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 'visibility': 'visible'
             });
         });
-        W.click(function () {
+        W.click(function() {
             var message = $.trim($('textarea').val());
             if (message.length > 0) {
                 var r = confirm("Vous n’avez pas envoyé votre message, souhaitez-vous toujours fermer le formulaire?");
                 if (r == false) {
                     return;
-                }
-                else {
+                } else {
                     document.getElementById("myform").reset();
                 }
             }
@@ -216,8 +169,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 });
                 document.getElementById("info").innerHTML = "Dérouler";
                 closed = true;
-            }
-            else {
+            } else {
                 C.css({
                     'transition': 'all 1s .5s',
                 });
@@ -237,7 +189,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 'visibility': 'hidden'
             });
         });
-        B.click(function () {
+        B.click(function() {
 
             L.css({
                 'transition': 'all .5s 1s',
@@ -255,16 +207,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             document.getElementById("info").innerHTML = "Contactez-nous";
         });
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#success-alert').hide();
             <?php if (!empty($success_message)) : ?>
                 $('#success-alert').show();
             <?php endif; ?>
         });
     </script>
-    <footer>
-        © 2023 PHP Site Web
-    </footer>
 </body>
 
 </html>

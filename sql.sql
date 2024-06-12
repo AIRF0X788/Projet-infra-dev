@@ -6,7 +6,8 @@ CREATE TABLE IF NOT EXISTS utilisateurs (
     statut VARCHAR(10) NOT NULL DEFAULT 'inactif',
     activation_token VARCHAR(255) DEFAULT NULL,
     est_admin BOOLEAN DEFAULT 0,
-    profile_picture LONGBLOB NOT NULL
+    profile_picture LONGBLOB NOT NULL,
+    ban BOOL NOT NULL DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS categories (
@@ -62,3 +63,10 @@ CREATE TABLE IF NOT EXISTS commentaires (
     FOREIGN KEY (user_id) REFERENCES utilisateurs(id_utilisateur) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS demandes_contact (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    sujet VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    date_demande TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

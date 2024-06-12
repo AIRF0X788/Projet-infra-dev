@@ -65,8 +65,8 @@ try {
     $approvalUrl = $payment->getApprovalLink();
 
     $paymentId = $payment->getId();
-    $stmt = $conn->prepare("INSERT INTO achats (user_id, id_publication, prix, date_achat, payment_id) VALUES (?, ?, ?, NOW(), ?)");
-    $stmt->bind_param("iiss", $user_id, $post_id, $totalPrice, $paymentId);
+    $stmt = $conn->prepare("INSERT INTO achats (user_id, id_publication, prix, date_achat) VALUES (?, ?, ?, NOW())");
+    $stmt->bind_param("iis", $user_id, $post_id, $totalPrice);
     $stmt->execute();
 
     $stmt->close();

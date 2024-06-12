@@ -7,6 +7,12 @@ if ($conn->connect_error) {
     die("Erreur de connexion à la base de données : " . $conn->connect_error);
 }
 
+if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit;
+}
+
+
 $user_id = $_SESSION['user_id'];
 
 $sql = "SELECT achats.date_achat, achats.prix, publications.titre, publications.type_publication, publications.contenu_texte, publications.audio_data
@@ -43,7 +49,7 @@ $stmt->close();
                         profil</span></a>
             </li>
             <li class="navbar__item">
-                <a href="achat.php" class="navbar__link"><i class="fa fa-cart-plus"></i><span>Voir mes achats</span></a>
+                <a href="post.php" class="navbar__link"><i class="fa fa-plus"></i><span>Poster</span></a>
             </li>
             <li class="navbar__item">
                 <a href="prods.php" class="navbar__link"><i class="fa fa-headphones"></i><span>Prods</span></a>
@@ -75,7 +81,7 @@ $stmt->close();
                     if ($row['type_publication'] === 'texte') {
                         echo "<a href='download.php?type=text&title=" . urlencode($row['titre']) . "&content=" . urlencode($row['contenu_texte']) . "' class='btn btn-primary' download>Télécharger</a>";
                     } elseif ($row['type_publication'] === 'prod') {
-                        echo "<a href='" . $row['lien_audio'] . "' class='btn btn-primary' download>Télécharger</a>";
+                        echo "<a href='download.php?type=prod&title=" . urlencode($row['titre']) . "' class='btn btn-primary' download>Télécharger</a>";
                     }
                     echo "</td>";
                     echo "</tr>";

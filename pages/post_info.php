@@ -11,7 +11,6 @@
 </head>
 
 <body>
-    <a href="main.php" class="btn btn-primary">Retour</a>
     <nav class="navbars">
         <ul class="navbar__menu">
         <li class="navbar__item">
@@ -35,9 +34,11 @@
         <?php
         session_start();
 
-        if (!isset($_SESSION['user_id'])) {
-            die("Vous devez être connecté pour voir cette page.");
+        if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
+            header('Location: login.php');
+            exit;
         }
+        
 
         $servername = "localhost";
         $username = "root";
@@ -122,7 +123,11 @@
                     echo "<button type='submit' class='btn btn-danger'>Supprimer</button>";
                     echo "</form>";
                 }
-            } else {
+                if ($row['payant'] === 1 && !empty($row['prix'])) {
+                    echo '<a href="process_payment.php?id=' . htmlspecialchars($post_id) . '&prix=' . htmlspecialchars($row['prix']) . '" class="btn btn-primary">Acheter</a>';
+                }
+            }
+            else {
                 echo "Aucun poste trouvé avec cet ID.";
             }
         } else {
@@ -173,11 +178,6 @@
             <?php endif; ?>
         </div>
     </div>
-
-    <?php if ($row['payant'] === 1 && !empty($row['prix'])): ?>
-            <a href="process_payment.php?id=<?php echo htmlspecialchars($post_id); ?>&prix=<?php echo htmlspecialchars($row['prix']); ?>"
-                class="btn btn-primary">Payer</a>
-        <?php endif; ?>
 
     <script>
         document.getElementById("previewButton").addEventListener("click", function () {

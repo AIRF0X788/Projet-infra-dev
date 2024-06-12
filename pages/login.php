@@ -17,17 +17,18 @@ if ($conn->connect_error) {
     die("La connexion à la base de données a échoué : " . $conn->connect_error);
 }
 
-// $sql_check_admin = "SELECT id_utilisateur FROM utilisateurs WHERE nom_utilisateur = 'admin' AND est_admin = 1";
-// $result_check_admin = $conn->query($sql_check_admin);
+$sql_check_admin = "SELECT id_utilisateur FROM utilisateurs WHERE nom_utilisateur = 'admin' AND est_admin = 1";
+$result_check_admin = $conn->query($sql_check_admin);
 
 if ($result_check_admin->num_rows === 0) {
     $admin_username = 'admin';
     $admin_email = 'admin@admin.com';
     $admin_password = password_hash('1234', PASSWORD_DEFAULT);
+    $default_profile_picture_admin_path = '../uploads/admin.png';
 
-    $sql = "INSERT INTO utilisateurs (nom_utilisateur, email, mot_de_passe, est_admin) VALUES (?, ?, ?, 1)";
+    $sql = "INSERT INTO utilisateurs (nom_utilisateur, email, mot_de_passe, est_admin, profile_picture) VALUES (?, ?, ?, 1, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sss", $admin_username, $admin_email, $admin_password);
+    $stmt->bind_param("ssss", $admin_username, $admin_email, $admin_password, $default_profile_picture_admin_path);
     $stmt->execute();
 }
 
@@ -37,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $login_password = $_POST['login_password'];
 
         if (!empty($login_username) && !empty($login_password)) {
-            $sql = "SELECT id_utilisateur, nom_utilisateur, mot_de_passe, est_admin FROM utilisateurs WHERE nom_utilisateur = ?";
+            $sql = "SELECT id_utilisateur, nom_utilisateur, mot_de_passe, est_admin, ban FROM utilisateurs WHERE nom_utilisateur = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("s", $login_username);
             $stmt->execute();
@@ -45,15 +46,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $row = $result->fetch_assoc();
 
             if ($row && password_verify($login_password, $row['mot_de_passe'])) {
+                if ($row['ban'] == 1) {
+                    header('Location: ban.php');
+                    exit();
+                }
+
                 $_SESSION['user_id'] = $row['id_utilisateur'];
                 $user_name = $row['nom_utilisateur'];
                 setcookie("user_name_cookie", $user_name, time() + 86400, "/");
+
                 if ($row['est_admin'] == 1) {
                     header('Location: admin.php');
                 } else {
                     $_SESSION['popup_shown'] = true;
                     header('Location: main.php');
                 }
+                exit();
             } else {
                 echo "Nom d'utilisateur ou mot de passe incorrect.";
             }
